@@ -7,39 +7,42 @@
 
 #include <string>
 
-class HorsProgram;
+namespace Hors {
 
-class HorsConfig {
-    friend HorsProgram;
+    class Program;
 
-private:
-    int GLContextMajorVersion = 3;
-    int GLContextMinorVersion = 0;
-    int WindowWidth = 1024;
-    int WindowHeight = 768;
-    std::string WindowTitle = "Hors Program";
+    class Config {
+        friend Program;
 
-public:
-    int GetGLContextMajorVersion() const {
-        return GLContextMajorVersion;
-    }
+    private:
+        int GLContextMajorVersion = 3;
+        int GLContextMinorVersion = 0;
+        int WindowWidth = 1024;
+        int WindowHeight = 768;
+        std::string WindowTitle = "Hors Program";
 
-    int GetGLContextMinorVersion() const {
-        return GLContextMinorVersion;
-    }
+    public:
+        int GetGLContextMajorVersion() const {
+            return GLContextMajorVersion;
+        }
 
-    int GetWindowWidth() const {
-        return WindowWidth;
-    }
+        int GetGLContextMinorVersion() const {
+            return GLContextMinorVersion;
+        }
 
-    int GetWindowHeight() const {
-        return WindowHeight;
-    }
+        int GetWindowWidth() const {
+            return WindowWidth;
+        }
 
-    std::string GetWindowTitle() const {
-        return WindowTitle;
-    }
-};
+        int GetWindowHeight() const {
+            return WindowHeight;
+        }
 
+        std::string GetWindowTitle() const {
+            return WindowTitle;
+        }
+    };
+
+}
 
 #endif //HORS_HORSCONFIG_H

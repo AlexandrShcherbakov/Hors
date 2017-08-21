@@ -7,25 +7,28 @@
 
 #include "HorsConfig.h"
 
-class HorsProgram {
-private:
-    HorsConfig config;
+namespace Hors {
 
-protected:
-    void RunFullProcess(int argc, char ** argv);
+    class Program {
+    private:
+        Config config;
 
-public:
-    ///Constructors
-    HorsProgram();
+    protected:
+        void RunFullProcess(int argc, char **argv);
 
-    template <typename ProgramClass>
-    friend void RunProgram(int argc, char ** argv);
-};
+    public:
+        ///Constructors
+        Program();
 
-template <typename ProgramClass>
-inline void RunProgram(int argc, char ** argv) {
-    ProgramClass p;
-    p.RunFullProcess(argc, argv);
+        template<typename ProgramClass>
+        friend void RunProgram(int argc, char **argv);
+    };
+
+    template<typename ProgramClass>
+    inline void RunProgram(int argc, char **argv) {
+        ProgramClass p;
+        p.RunFullProcess(argc, argv);
+    }
+
 }
-
 #endif

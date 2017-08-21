@@ -7,20 +7,24 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
-HorsProgram::HorsProgram() {
+namespace Hors {
 
-}
+    Program::Program() {
 
-void InitGlut(const HorsConfig& config, int argc, char ** argv) {
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
-    glutInitContextVersion(config.GetGLContextMajorVersion(), config.GetGLContextMinorVersion());
-    glutInitWindowSize(config.GetWindowWidth(), config.GetWindowHeight());
-    glutCreateWindow(config.GetWindowTitle().c_str());
-}
+    }
 
-void HorsProgram::RunFullProcess(int argc, char **argv) {
-    InitGlut(config, argc, argv);
-    glewInit();
-    glutMainLoop();
+    void InitGlut(const Config &config, int argc, char **argv) {
+        glutInit(&argc, argv);
+        glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+        glutInitContextVersion(config.GetGLContextMajorVersion(), config.GetGLContextMinorVersion());
+        glutInitWindowSize(config.GetWindowWidth(), config.GetWindowHeight());
+        glutCreateWindow(config.GetWindowTitle().c_str());
+    }
+
+    void Program::RunFullProcess(int argc, char **argv) {
+        InitGlut(config, argc, argv);
+        glewInit();
+        glutMainLoop();
+    }
+
 }

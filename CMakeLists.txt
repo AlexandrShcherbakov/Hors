@@ -3,7 +3,7 @@ project(Hors)
 
 set(CMAKE_CXX_STANDARD 14)
 
-set(SOURCE_FILES src/HorsProgram.cpp include/HorsProgram.h include/HorsConfig.cpp include/HorsConfig.h)
+set(SOURCE_FILES src/HorsProgram.cpp include/HorsProgram.h src/HorsConfig.cpp include/HorsConfig.h)
 
 add_library(Hors ${SOURCE_FILES})
 
