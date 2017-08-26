@@ -50,7 +50,7 @@ namespace Hors {
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
         glutInitContextVersion(config.GetGLVersion().GetMajor(), config.GetGLVersion().GetMinor());
-        glutInitWindowSize(config.GetWindowWidth(), config.GetWindowHeight());
+        glutInitWindowSize(config.GetWindowSize().GetWidth(), config.GetWindowSize().GetHeight());
         glutCreateWindow(config.GetWindowTitle().c_str());
         glutKeyboardFunc(KeyboardFunction);
         glutSpecialFunc(SpecialButtonFunction);
@@ -75,14 +75,9 @@ namespace Hors {
                 "Window title"
         );
         Parser.AddArgument(
-                "height",
-                po::value(&(config.WindowHeight))->default_value(768),
-                "Window height"
-        );
-        Parser.AddArgument(
-                "width",
-                po::value(&(config.WindowWidth))->default_value(1024),
-                "Window width"
+                "window_size",
+                po::value(&(config.windowSize))->default_value(WindowSize(1024, 768)),
+                "Window size"
         );
     }
 

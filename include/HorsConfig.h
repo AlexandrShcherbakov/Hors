@@ -18,7 +18,8 @@ namespace Hors {
         int Minor;
 
     public:
-        GLVersion(const int major=3, const int minor=0): Major(major), Minor(minor) {}
+        GLVersion() {}
+        GLVersion(const int major, const int minor): Major(major), Minor(minor) {}
 
         int GetMajor() const {
             return Major;
@@ -37,32 +38,50 @@ namespace Hors {
         }
     };
 
+    class WindowSize {
+    private:
+        int Width;
+        int Height;
+    public:
+        WindowSize() {}
+        WindowSize(const int width, const int height): Width(width), Height(height) {}
 
+        int GetWidth() const {
+            return Width;
+        }
+        int GetHeight() const {
+            return Height;
+        }
+
+        friend std::istream& operator>>(std::istream& in, WindowSize& size) {
+            char x;
+            return in >> size.Width >> x >> size.Height;
+        }
+
+        friend std::ostream& operator<<(std::ostream& out, const WindowSize& size) {
+            return out << size.Width << 'x' << size.Height;
+        }
+    };
 
     class Config {
+        friend Program;
     private:
         GLVersion contextVersion;
-        int WindowWidth;
-        int WindowHeight;
+        WindowSize windowSize;
         std::string WindowTitle;
 
     public:
-        GLVersion GetGLVersion() const {
+        const GLVersion GetGLVersion() const {
             return contextVersion;
         }
 
-        int GetWindowWidth() const {
-            return WindowWidth;
+        const WindowSize GetWindowSize() const {
+            return windowSize;
         }
 
-        int GetWindowHeight() const {
-            return WindowHeight;
-        }
-
-        std::string GetWindowTitle() const {
+        const std::string GetWindowTitle() const {
             return WindowTitle;
         }
-        friend Program;
     };
 
 }
