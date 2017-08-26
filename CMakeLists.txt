@@ -3,7 +3,7 @@ project(Hors)
 
 set(CMAKE_CXX_STANDARD 14)
 
-set(SOURCE_FILES src/HorsProgram.cpp include/HorsProgram.h src/HorsConfig.cpp include/HorsConfig.h)
+set(SOURCE_FILES src/HorsProgram.cpp include/HorsProgram.h src/HorsConfig.cpp include/HorsConfig.h src/HorsArgumentParser.cpp include/HorsArgumentParser.h)
 
 add_library(Hors ${SOURCE_FILES})
 
@@ -19,5 +19,8 @@ find_package(GLEW REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS})
 add_definitions(${GLEW_DEFINITIONS})
 
+find_package(Boost REQUIRED COMPONENTS program_options)
+include_directories(${Boost_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIRS})
 
 add_subdirectory(Test)

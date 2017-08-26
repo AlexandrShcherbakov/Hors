@@ -5,6 +5,7 @@
 #ifndef HORS_LIBRARY_H
 #define HORS_LIBRARY_H
 
+#include "HorsArgumentParser.h"
 #include "HorsConfig.h"
 
 namespace Hors {
@@ -12,6 +13,7 @@ namespace Hors {
     class Program {
     private:
         Config config;
+        HorsArgumentParser Parser;
 
     protected:
         void RunFullProcess(int argc, char **argv);

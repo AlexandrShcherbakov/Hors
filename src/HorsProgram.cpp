@@ -22,6 +22,7 @@ namespace Hors {
     }
 
     void Program::RunFullProcess(int argc, char **argv) {
+        Parser.Parse(argc, const_cast<const char **>(argv));
         InitGlut(config, argc, argv);
         glewInit();
         glutMainLoop();

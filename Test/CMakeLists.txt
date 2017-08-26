@@ -11,4 +11,5 @@ target_link_libraries(
         Hors
         ${GLUT_LIBRARY}
         ${GLEW_LIBRARY}
+        ${Boost_LIBRARIES}
 )
