@@ -45,6 +45,8 @@ namespace Hors {
         }
 
     public:
+        Program();
+
         virtual ~Program()= default;
     };
 

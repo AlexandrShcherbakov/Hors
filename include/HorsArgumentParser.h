@@ -5,6 +5,8 @@
 #ifndef HORS_HORSARGUMENTPARSER_H
 #define HORS_HORSARGUMENTPARSER_H
 
+#include <iostream>
+
 #include "boost/program_options.hpp"
 
 namespace Hors {
@@ -16,7 +18,12 @@ namespace Hors {
         po::options_description Description;
         po::variables_map ParsedOptions;
     public:
-        void AddArgument();
+        void AddArgument(const std::string& optName, const std::string& description);
+        void AddArgument(
+                const std::string& optName,
+                const po::value_semantic* optSemantic,
+                const std::string& description
+        );
         void Parse(int argc, const char ** argv);
     };
 

@@ -9,4 +9,21 @@ namespace Hors {
         po::store(po::parse_command_line(argc, argv, Description), ParsedOptions);
         po::notify(ParsedOptions);
     }
+
+    void HorsArgumentParser::AddArgument(
+            const std::string& optName,
+            const std::string& description
+    ) {
+        Description.add_options()
+                (optName.c_str(), description.c_str());
+    }
+
+    void HorsArgumentParser::AddArgument(
+            const std::string& optName,
+            const po::value_semantic* optSemantic,
+            const std::string& description
+    ) {
+        Description.add_options()
+                (optName.c_str(), optSemantic, description.c_str());
+    }
 }

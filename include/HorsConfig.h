@@ -5,29 +5,50 @@
 #ifndef HORS_HORSCONFIG_H
 #define HORS_HORSCONFIG_H
 
+#include <fstream>
 #include <string>
 
 namespace Hors {
 
     class Program;
 
-    class Config {
-        friend Program;
-
+    class GLVersion {
     private:
-        int GLContextMajorVersion = 3;
-        int GLContextMinorVersion = 0;
-        int WindowWidth = 1024;
-        int WindowHeight = 768;
-        std::string WindowTitle = "Hors Program";
+        int Major;
+        int Minor;
 
     public:
-        int GetGLContextMajorVersion() const {
-            return GLContextMajorVersion;
+        GLVersion(const int major=3, const int minor=0): Major(major), Minor(minor) {}
+
+        int GetMajor() const {
+            return Major;
+        }
+        int GetMinor() const {
+            return Minor;
         }
 
-        int GetGLContextMinorVersion() const {
-            return GLContextMinorVersion;
+        friend std::istream& operator>>(std::istream& in, GLVersion& version) {
+            char dot;
+            return in >> version.Major >> dot >> version.Minor;
+        }
+
+        friend std::ostream& operator<<(std::ostream& out, const GLVersion& version) {
+            return out << version.Major << '.' << version.Minor;
+        }
+    };
+
+
+
+    class Config {
+    private:
+        GLVersion contextVersion;
+        int WindowWidth;
+        int WindowHeight;
+        std::string WindowTitle;
+
+    public:
+        GLVersion GetGLVersion() const {
+            return contextVersion;
         }
 
         int GetWindowWidth() const {
@@ -41,6 +62,7 @@ namespace Hors {
         std::string GetWindowTitle() const {
             return WindowTitle;
         }
+        friend Program;
     };
 
 }
