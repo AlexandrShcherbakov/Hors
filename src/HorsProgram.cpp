@@ -65,11 +65,18 @@ namespace Hors {
         );
     }
 
+    void RunInitialFunctions(std::vector<std::function<void(void)> >& funcs) {
+        for (auto& func: funcs) {
+            func();
+        }
+    }
+
     void Program::RunFullProcess(int argc, char **argv) {
         Parser.Parse(argc, const_cast<const char **>(argv));
         SetGlobalFunctions();
         InitGlut(config, argc, argv);
         glewInit();
+        RunInitialFunctions(InitialFunctions);
         glutMainLoop();
     }
 

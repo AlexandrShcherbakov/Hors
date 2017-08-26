@@ -19,6 +19,7 @@ namespace Hors {
         HorsArgumentParser Parser;
         std::map<char, std::function<void(void)> > KeyboardEvents;
         std::map<int, std::function<void(void)> > SpecialButtonsEvents;
+        std::vector<std::function<void(void)> > InitialFunctions;
 
         void SetGlobalFunctions();
         void KeyboardFunction(const unsigned char key) {
@@ -38,6 +39,9 @@ namespace Hors {
         }
         void AddKeyboardEvent(const int key, std::function<void(void)> func) {
             SpecialButtonsEvents[key] = func;
+        }
+        void AddInitialFunction(std::function<void(void)> func) {
+            InitialFunctions.push_back(func);
         }
 
     public:
