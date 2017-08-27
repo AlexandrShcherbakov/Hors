@@ -49,7 +49,6 @@ namespace Hors {
     public:
         Program();
         Program(const Program& p) = default;
-        Program(const Program&& p) = default;
 
         virtual ~Program()= default;
     };
