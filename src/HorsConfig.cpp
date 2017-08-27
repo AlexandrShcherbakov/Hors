@@ -22,6 +22,7 @@ namespace Hors {
         pt::ptree tree;
         pt::read_json(path, tree);
         WindowTitle = tree.get<std::string>("Window Title", "Hors Program");
+        InputDataPath = tree.get<std::string>("Input Data Path", "");
         contextVersion = GLVersion(3, 0);
         if (tree.count("GLVersion") != 0) {
             contextVersion = ExtractGLVersionFromPTree(tree.get_child("GLVersion"));

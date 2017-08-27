@@ -15,8 +15,6 @@ namespace Hors {
 
     class Program {
     private:
-        Config config;
-        HorsArgumentParser Parser;
         std::map<char, std::function<void(void)> > KeyboardEvents;
         std::map<int, std::function<void(void)> > SpecialButtonsEvents;
         std::vector<std::function<void(void)> > InitialFunctions;
@@ -32,6 +30,9 @@ namespace Hors {
         virtual void Run() = 0;
 
     protected:
+        Config config;
+        HorsArgumentParser Parser;
+
         void RunFullProcess(int argc, char **argv);
         template<typename ProgramClass>
         friend void RunProgram(int argc, char **argv);

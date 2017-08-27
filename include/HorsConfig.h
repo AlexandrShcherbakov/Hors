@@ -69,6 +69,7 @@ namespace Hors {
         GLVersion contextVersion;
         WindowSize windowSize;
         std::string WindowTitle;
+        std::string InputDataPath;
 
     public:
         void LoadFromFile(const std::string& path);
@@ -96,6 +97,10 @@ namespace Hors {
 
         const std::string GetWindowTitle() const {
             return WindowTitle;
+        }
+
+        const std::string GetInputDataPath() const {
+            return InputDataPath;
         }
     };
 
