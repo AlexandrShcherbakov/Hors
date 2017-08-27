@@ -28,6 +28,8 @@ namespace Hors {
         void SpecialButtons(const int key) {
             return SpecialButtonsEvents[key]();
         }
+        virtual void RenderFunction() = 0;
+        virtual void Run() = 0;
 
     protected:
         void RunFullProcess(int argc, char **argv);
@@ -46,6 +48,8 @@ namespace Hors {
 
     public:
         Program();
+        Program(const Program& p) = default;
+        Program(const Program&& p) = default;
 
         virtual ~Program()= default;
     };

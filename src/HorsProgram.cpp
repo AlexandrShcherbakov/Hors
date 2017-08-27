@@ -14,6 +14,7 @@ namespace Hors {
         GlobalFunctionContainer() = default;
         std::function<void(const unsigned char)> KeyboardFunction;
         std::function<void(const int)> SpecialButtonsFunction;
+        std::function<void(void)> RenderFunction;
 
     public:
         static GlobalFunctionContainer& Get() {
@@ -36,6 +37,14 @@ namespace Hors {
         void CallSpecialButtonsFunction(const int key) const {
             SpecialButtonsFunction(key);
         }
+
+        void SetRenderFunction(const std::function<void(void)>& func) {
+            RenderFunction = func;
+        }
+
+        void CallRenderFunction() const {
+            RenderFunction();
+        }
     };
 
     void KeyboardFunction(unsigned char key, int x, int y) {
@@ -46,6 +55,10 @@ namespace Hors {
         GlobalFunctionContainer::Get().CallSpecialButtonsFunction(key);
     }
 
+    void RenderFunction() {
+        GlobalFunctionContainer::Get().CallRenderFunction();
+    }
+
     void InitGlut(const Config &config, int argc, char **argv) {
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
@@ -54,6 +67,7 @@ namespace Hors {
         glutCreateWindow(config.GetWindowTitle().c_str());
         glutKeyboardFunc(KeyboardFunction);
         glutSpecialFunc(SpecialButtonFunction);
+        glutDisplayFunc(RenderFunction);
     }
 
     void RunInitialFunctions(std::vector<std::function<void(void)> >& funcs) {
@@ -63,26 +77,10 @@ namespace Hors {
     }
 
     Program::Program() {
-        Parser.AddArgument(
-                "config",
-                po::value(&config),
-                "Path to configuration file"
-        );
-        Parser.AddArgument(
-                "gl_version",
-                po::value(&(config.contextVersion)),
-                "Version of OpenGL context"
-        );
-        Parser.AddArgument(
-                "title",
-                po::value(&(config.WindowTitle)),
-                "Window title"
-        );
-        Parser.AddArgument(
-                "window_size",
-                po::value(&(config.windowSize)),
-                "Window size"
-        );
+        Parser.AddArgument("config", po::value(&config), "Path to configuration file");
+        Parser.AddArgument("gl_version", po::value(&(config.contextVersion)), "Version of OpenGL context");
+        Parser.AddArgument("title", po::value(&(config.WindowTitle)), "Window title");
+        Parser.AddArgument("window_size", po::value(&(config.windowSize)), "Window size");
     }
 
     void Program::SetGlobalFunctions() {
@@ -92,6 +90,9 @@ namespace Hors {
         GlobalFunctionContainer::Get().SetSpecialButtonsFunction(
                 [this](const int key) { this->SpecialButtons(key); }
         );
+        GlobalFunctionContainer::Get().SetRenderFunction(
+                [this]() { this->RenderFunction(); }
+        );
     }
 
     void Program::RunFullProcess(int argc, char **argv) {
@@ -100,6 +101,7 @@ namespace Hors {
         InitGlut(config, argc, argv);
         glewInit();
         RunInitialFunctions(InitialFunctions);
+        Run();
         glutMainLoop();
     }
 
