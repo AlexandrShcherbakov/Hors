@@ -1,0 +1,11 @@
+{
+  "GLVersion": {
+    "Major": 3,
+    "Minor": 2
+  },
+  "Window Title": "Title from config",
+  "Window Size": {
+    "Height": 300,
+    "Width": 1000
+  }
+}

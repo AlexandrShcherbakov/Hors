@@ -63,20 +63,24 @@ namespace Hors {
     }
 
     Program::Program() {
-        Parser.AddArgument("config", "Path to configuration file");
+        Parser.AddArgument(
+                "config",
+                po::value(&config),
+                "Path to configuration file"
+        );
         Parser.AddArgument(
                 "gl_version",
-                po::value(&(config.contextVersion))->default_value(GLVersion(3, 0)),
+                po::value(&(config.contextVersion)),
                 "Version of OpenGL context"
         );
         Parser.AddArgument(
                 "title",
-                po::value(&(config.WindowTitle))->default_value("Hors Program"),
+                po::value(&(config.WindowTitle)),
                 "Window title"
         );
         Parser.AddArgument(
                 "window_size",
-                po::value(&(config.windowSize))->default_value(WindowSize(1024, 768)),
+                po::value(&(config.windowSize)),
                 "Window size"
         );
     }

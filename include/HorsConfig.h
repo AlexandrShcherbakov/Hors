@@ -18,7 +18,7 @@ namespace Hors {
         int Minor;
 
     public:
-        GLVersion() {}
+        GLVersion() = default;
         GLVersion(const int major, const int minor): Major(major), Minor(minor) {}
 
         int GetMajor() const {
@@ -43,7 +43,7 @@ namespace Hors {
         int Width;
         int Height;
     public:
-        WindowSize() {}
+        WindowSize() = default;
         WindowSize(const int width, const int height): Width(width), Height(height) {}
 
         int GetWidth() const {
@@ -71,6 +71,21 @@ namespace Hors {
         std::string WindowTitle;
 
     public:
+        void LoadFromFile(const std::string& path);
+
+        friend std::istream& operator>>(std::istream& in, Config& config) {
+            std::string path;
+            in >> path;
+            config.LoadFromFile(path);
+            return in;
+        }
+
+        friend std::ostream& operator<<(std::ostream& out, const Config& config) {
+            return out << "Window Title: " << config.WindowTitle << std::endl
+                << "Window size: " << config.windowSize << std::endl
+                << "OpenGL context version: " << config.contextVersion << std::endl;
+        }
+
         const GLVersion GetGLVersion() const {
             return contextVersion;
         }
