@@ -2,8 +2,8 @@
 // Created by alex on 21.08.17.
 //
 
-#ifndef HORS_HORSCONFIG_H
-#define HORS_HORSCONFIG_H
+#ifndef HORS_HORS_CONFIG_H
+#define HORS_HORS_CONFIG_H
 
 #include <fstream>
 #include <string>
@@ -106,4 +106,4 @@ namespace Hors {
 
 }
 
-#endif //HORS_HORSCONFIG_H
+#endif //HORS_HORS_CONFIG_H

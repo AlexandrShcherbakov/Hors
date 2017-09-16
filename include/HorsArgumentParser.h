@@ -2,8 +2,8 @@
 // Created by alex on 26.08.17.
 //
 
-#ifndef HORS_HORSARGUMENTPARSER_H
-#define HORS_HORSARGUMENTPARSER_H
+#ifndef HORS_HORS_ARGUMENT_PARSER_H
+#define HORS_HORS_ARGUMENT_PARSER_H
 
 #include <iostream>
 
@@ -29,4 +29,4 @@ namespace Hors {
 
 }
 
-#endif //HORS_HORSARGUMENTPARSER_H
+#endif //HORS_HORS_ARGUMENT_PARSER_H

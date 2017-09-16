@@ -2,8 +2,8 @@
 // Created by alex on 21.08.17.
 //
 
-#include <GL/glew.h>
-#include <GL/freeglut.h>
+#include "GL/glew.h"
+#include "GL/freeglut.h"
 
 #include "../include/HorsProgram.h"
 
@@ -12,6 +12,9 @@ namespace Hors {
     class GlobalFunctionContainer {
     private:
         GlobalFunctionContainer() = default;
+        const std::function<void(const unsigned char)> DefaultKeyboardFunction = [](const unsigned char){};
+        const std::function<void(const int)> DefaultSpecialButtonsFunction = [](const int){};
+        const std::function<void(void)> DefaultRenderFunction = []{};
         std::function<void(const unsigned char)> KeyboardFunction;
         std::function<void(const int)> SpecialButtonsFunction;
         std::function<void(void)> RenderFunction;
@@ -45,6 +48,12 @@ namespace Hors {
         void CallRenderFunction() const {
             RenderFunction();
         }
+
+        void SetDefaults() {
+            KeyboardFunction = DefaultKeyboardFunction;
+            SpecialButtonsFunction = DefaultSpecialButtonsFunction;
+            RenderFunction = DefaultRenderFunction;
+        }
     };
 
     void KeyboardFunction(unsigned char key, int x, int y) {
@@ -59,15 +68,17 @@ namespace Hors {
         GlobalFunctionContainer::Get().CallRenderFunction();
     }
 
-    void InitGlut(const Config &config, int argc, char **argv) {
+    int InitGlut(const Config &config, int argc, char **argv) {
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
         glutInitContextVersion(config.GetGLVersion().GetMajor(), config.GetGLVersion().GetMinor());
         glutInitWindowSize(config.GetWindowSize().GetWidth(), config.GetWindowSize().GetHeight());
-        glutCreateWindow(config.GetWindowTitle().c_str());
+        int windowId = glutCreateWindow(config.GetWindowTitle().c_str());
         glutKeyboardFunc(KeyboardFunction);
         glutSpecialFunc(SpecialButtonFunction);
         glutDisplayFunc(RenderFunction);
+        glutIdleFunc(glutPostRedisplay);
+        return windowId;
     }
 
     void RunInitialFunctions(std::vector<std::function<void(void)> >& funcs) {
@@ -98,11 +109,20 @@ namespace Hors {
     void Program::RunFullProcess(int argc, char **argv) {
         Parser.Parse(argc, const_cast<const char **>(argv));
         SetGlobalFunctions();
-        InitGlut(config, argc, argv);
-        glewInit();
+        WindowID = InitGlut(config, argc, argv);
+        GLenum err = glewInit();
+        if (GLEW_OK != err) {
+            std::cerr << "Error: " << glewGetErrorString(err) << std::endl;
+            exit(1);
+        }
         RunInitialFunctions(InitialFunctions);
         Run();
         glutMainLoop();
     }
 
+    void Program::CloseWindow() const {
+        GlobalFunctionContainer::Get().SetDefaults();
+        glutLeaveMainLoop();
+        glutDestroyWindow(WindowID);
+    }
 }

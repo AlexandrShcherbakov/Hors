@@ -9,6 +9,7 @@ add_executable(TestApp ${SOURCE_FILES})
 target_link_libraries(
         TestApp
         Hors
+        ${OPENGL_LIBRARIES}
         ${GLUT_LIBRARY}
         ${GLEW_LIBRARY}
         ${Boost_LIBRARIES}

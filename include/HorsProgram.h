@@ -15,16 +15,21 @@ namespace Hors {
 
     class Program {
     private:
-        std::map<char, std::function<void(void)> > KeyboardEvents;
+        std::map<unsigned char, std::function<void(void)> > KeyboardEvents;
         std::map<int, std::function<void(void)> > SpecialButtonsEvents;
         std::vector<std::function<void(void)> > InitialFunctions;
+        int WindowID;
 
         void SetGlobalFunctions();
         void KeyboardFunction(const unsigned char key) {
-            return KeyboardEvents[key]();
+            if (KeyboardEvents.count(key)) {
+                KeyboardEvents[key]();
+            }
         }
         void SpecialButtons(const int key) {
-            return SpecialButtonsEvents[key]();
+            if (SpecialButtonsEvents.count(key)) {
+                SpecialButtonsEvents[key]();
+            }
         }
         virtual void RenderFunction() = 0;
         virtual void Run() = 0;
@@ -46,6 +51,7 @@ namespace Hors {
         void AddInitialFunction(std::function<void(void)> func) {
             InitialFunctions.push_back(func);
         }
+        void CloseWindow() const;
 
     public:
         Program();
@@ -54,7 +60,7 @@ namespace Hors {
         Program& operator=(const Program&) = default;
         Program& operator=(Program&&) = default;
 
-        virtual ~Program()= default;
+        virtual ~Program() = default;
     };
 
     template<typename ProgramClass>

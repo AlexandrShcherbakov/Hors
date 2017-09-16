@@ -1,11 +1,12 @@
 {
   "GLVersion": {
     "Major": 3,
-    "Minor": 2
+    "Minor": 0
   },
   "Window Title": "Title from config",
   "Window Size": {
     "Height": 300,
     "Width": 1000
-  }
+  },
+  "Input Data Path": "SimpleSquare.bin"
 }
