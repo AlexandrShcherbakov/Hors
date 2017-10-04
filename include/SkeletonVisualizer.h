@@ -20,9 +20,9 @@ namespace Hors {
 
     public:
         SkeletonVisualizer() {
-            AddKeyboardEvent(static_cast<unsigned char>(27), [this]() { CloseWindow(); });
-            AddKeyboardEvent(static_cast<unsigned char>('w'), [this]() { Cam.StepForward(); });
-            AddKeyboardEvent(static_cast<unsigned char>('s'), [this]() { Cam.StepBackward(); });
+            AddKeyboardEvent(static_cast<char>(27), [this]() { CloseWindow(); });
+            AddKeyboardEvent('w', [this]() { Cam.StepForward(); });
+            AddKeyboardEvent('s', [this]() { Cam.StepBackward(); });
             AddKeyboardEvent(GLUT_KEY_UP, [this] { Cam.RotateTop(); });
             AddKeyboardEvent(GLUT_KEY_DOWN, [this] { Cam.RotateDown(); });
             AddKeyboardEvent(GLUT_KEY_LEFT, [this] { Cam.RotateLeft(); });

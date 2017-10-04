@@ -15,7 +15,7 @@ namespace Hors {
 
     class Program {
     private:
-        std::map<unsigned char, std::function<void(void)> > KeyboardEvents;
+        std::map<char, std::function<void(void)> > KeyboardEvents;
         std::map<int, std::function<void(void)> > SpecialButtonsEvents;
         std::vector<std::function<void(void)> > InitialFunctions;
         int WindowID;
@@ -42,7 +42,7 @@ namespace Hors {
         template<typename ProgramClass>
         friend void RunProgram(int argc, char **argv);
 
-        void AddKeyboardEvent(const unsigned char key, std::function<void(void)> func) {
+        void AddKeyboardEvent(const char key, std::function<void(void)> func) {
             KeyboardEvents[key] = func;
         }
         void AddKeyboardEvent(const int key, std::function<void(void)> func) {
