@@ -4,6 +4,7 @@
 
 #include "GL/glew.h"
 #include "GL/freeglut.h"
+#include "glm/gtc/type_ptr.hpp"
 
 #include "../include/SimpleSceneData.h"
 #include "../include/SkeletonVisualizer.h"
@@ -85,11 +86,19 @@ namespace Hors {
         glEnableVertexAttribArray(0); CHECK_GL_ERRORS;
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesBuffer); CHECK_GL_ERRORS;
+
+        CameraUniformLocation = glGetUniformLocation(Program, "CameraMatrix"); CHECK_GL_ERRORS;
+
+        Cam = Camera(
+            glm::vec3(0), glm::vec3(0, 0, 1), glm::vec3(0, 1, 0),
+            45, config.GetWindowSize().GetScreenRadio(), 0.0001, 10000
+        );
     }
 
     void SkeletonVisualizer::RenderFunction() {
         glClearColor(0, 0, 0, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glUniformMatrix4fv(CameraUniformLocation, 1, GL_FALSE, glm::value_ptr(Cam.GetMatrix())); CHECK_GL_ERRORS;
         glDrawElements(GL_LINES, static_cast<GLsizei>(IndicesSize), GL_UNSIGNED_INT, nullptr); CHECK_GL_ERRORS;
         glFinish(); CHECK_GL_ERRORS;
         glutSwapBuffers();

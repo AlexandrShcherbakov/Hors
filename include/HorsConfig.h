@@ -52,6 +52,9 @@ namespace Hors {
         int GetHeight() const {
             return Height;
         }
+        float GetScreenRadio() const {
+            return static_cast<float>(Width) / static_cast<float>(Height);
+        }
 
         friend std::istream& operator>>(std::istream& in, WindowSize& size) {
             char x;
