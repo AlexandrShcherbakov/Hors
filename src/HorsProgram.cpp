@@ -87,11 +87,26 @@ namespace Hors {
         }
     }
 
-    Program::Program() {
+    void Program::AddInitializeArguments() {
         Parser.AddArgument("config", po::value(&config), "Path to configuration file");
         Parser.AddArgument("gl_version", po::value(&(config.contextVersion)), "Version of OpenGL context");
         Parser.AddArgument("title", po::value(&(config.WindowTitle)), "Window title");
         Parser.AddArgument("window_size", po::value(&(config.windowSize)), "Window size");
+    }
+
+    void Program::AddKeyboardEvents() {
+        AddKeyboardEvent(static_cast<char>(27), [this]() { CloseWindow(); });
+        AddKeyboardEvent('w', [this]() { MainCamera.StepForward(); });
+        AddKeyboardEvent('s', [this]() { MainCamera.StepBackward(); });
+        AddKeyboardEvent(GLUT_KEY_UP, [this] { MainCamera.RotateTop(); });
+        AddKeyboardEvent(GLUT_KEY_DOWN, [this] { MainCamera.RotateDown(); });
+        AddKeyboardEvent(GLUT_KEY_LEFT, [this] { MainCamera.RotateLeft(); });
+        AddKeyboardEvent(GLUT_KEY_RIGHT, [this] { MainCamera.RotateRight(); });
+    }
+
+    Program::Program() {
+        AddInitializeArguments();
+        AddKeyboardEvents();
     }
 
     void Program::SetGlobalFunctions() {

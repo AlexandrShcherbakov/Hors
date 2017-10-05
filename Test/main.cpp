@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#include "../include/SkeletonVisualizer.h"
+#include "../include/SurfaceVisualizer.h"
 #include "../include/SimpleSceneData.h"
 
 
@@ -28,5 +28,5 @@ void GenerateSquare() {
 
 int main(int argc, char ** argv) {
     GenerateSquare();
-    Hors::RunProgram<Hors::SkeletonVisualizer>(argc, argv);
+    Hors::RunProgram<Hors::SurfaceVisualizer>(argc, argv);
 }

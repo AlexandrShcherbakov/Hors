@@ -1,21 +1,20 @@
 //
-// Created by alex on 27.08.17.
+// Created by alex on 05.10.17.
 //
 
-#ifndef HORS_SKELETON_VISUALIZER_H
-#define HORS_SKELETON_VISUALIZER_H
+#ifndef HORS_SURFACEVISUALIZER_H
+#define HORS_SURFACEVISUALIZER_H
 
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
-#include "Camera.h"
 #include "HorsProgram.h"
 
 namespace Hors {
 
-    class SkeletonVisualizer : public Program {
+    class SurfaceVisualizer : public Program {
+    private:
         size_t IndicesSize;
-
     public:
         void Run() override;
         void RenderFunction() override;
@@ -23,4 +22,4 @@ namespace Hors {
 
 }
 
-#endif //HORS_SKELETON_VISUALIZER_H
+#endif //HORS_SURFACEVISUALIZER_H

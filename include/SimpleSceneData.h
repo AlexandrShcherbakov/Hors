@@ -25,8 +25,8 @@ namespace Hors {
 
     class SimpleSceneData {
     private:
-        std::vector<glm::tvec4<float> > Points;
-        std::vector<glm::tvec4<float> > Normals;
+        std::vector<glm::vec4> Points;
+        std::vector<glm::vec4> Normals;
         std::vector<int> TrianglesIndices;
     public:
         void LoadFromFile(const std::string& path);
@@ -42,6 +42,10 @@ namespace Hors {
 
         auto GetTrianglesIndex(const unsigned index) const {
             return TrianglesIndices[index];
+        }
+
+        auto GetTrianglesIndicesSize() const {
+            return TrianglesIndices.size();
         }
 
         template<typename _InputIterator, typename = std::_RequireInputIter<_InputIterator>>
@@ -60,7 +64,11 @@ namespace Hors {
         }
 
         GLuint GenPointsBuffer() const;
+        GLuint GenTrianglesPointsBuffer() const;
         std::tuple<GLuint, size_t> GenSkeletonIndicesBuffer() const;
+        GLuint GenIndicesBuffer() const;
+        GLuint GenRandomTrianglesColorBuffer() const;
+        GLuint GenIdentIndicesBuffer() const;
     };
 
 }

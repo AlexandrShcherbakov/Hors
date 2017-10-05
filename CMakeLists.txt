@@ -5,21 +5,23 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -pedantic")
 
 set(SOURCE_FILES
-        include/Camera.h
-        include/HorsArgumentParser.h
-        include/HorsConfig.h
-        include/HorsProgram.h
-        include/SimpleSceneData.h
-        include/SkeletonVisualizer.h
-        include/Utils.h
-        src/Camera.cpp
-        src/HorsArgumentParser.cpp
-        src/HorsConfig.cpp
-        src/HorsProgram.cpp
-        src/SimpleSceneData.cpp
-        src/SkeletonVisualizer.cpp
-        src/Utils.cpp
-        )
+    include/Camera.h
+    include/HorsArgumentParser.h
+    include/HorsConfig.h
+    include/HorsProgram.h
+    include/SimpleSceneData.h
+    include/SkeletonVisualizer.h
+    include/SurfaceVisualizer.h
+    include/Utils.h
+    src/Camera.cpp
+    src/HorsArgumentParser.cpp
+    src/HorsConfig.cpp
+    src/HorsProgram.cpp
+    src/SimpleSceneData.cpp
+    src/SkeletonVisualizer.cpp
+    src/SurfaceVisualizer.cpp
+    src/Utils.cpp
+)
 
 add_library(Hors STATIC ${SOURCE_FILES})
 

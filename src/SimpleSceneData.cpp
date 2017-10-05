@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <random>
 #include <set>
 #include <tuple>
 
@@ -69,6 +70,14 @@ namespace Hors {
         return GenAndFillBuffer<GL_ARRAY_BUFFER>(Points);
     }
 
+    GLuint SimpleSceneData::GenTrianglesPointsBuffer() const {
+        std::vector<glm::vec4> trianglesPoints(TrianglesIndices.size());
+        for (size_t i = 0; i < TrianglesIndices.size(); ++i) {
+            trianglesPoints[i] = Points[TrianglesIndices[i]];
+        }
+        return GenAndFillBuffer<GL_ARRAY_BUFFER>(trianglesPoints);
+    }
+
     template<typename T>
     std::pair<T, T> MakeSortedPair(const T t1, const T t2) {
         return std::make_pair(std::min(t1, t2), std::max(t1, t2));
@@ -88,5 +97,27 @@ namespace Hors {
             indices.push_back(edge.second);
         }
         return std::make_tuple(GenAndFillBuffer<GL_ELEMENT_ARRAY_BUFFER>(indices), indices.size());
+    }
+
+    GLuint SimpleSceneData::GenRandomTrianglesColorBuffer() const {
+        std::vector<glm::vec4> colors(TrianglesIndices.size());
+        std::default_random_engine engine;
+        std::uniform_real_distribution<float> dist(0.0f, 1.0f);
+        for (size_t i = 0; i < colors.size(); i += 3) {
+            colors[i] = colors[i + 1] = colors[i + 2] = glm::vec4(dist(engine), dist(engine), dist(engine), 1);
+        }
+        return GenAndFillBuffer<GL_ARRAY_BUFFER>(colors);
+    }
+
+    GLuint SimpleSceneData::GenIndicesBuffer() const {
+        return GenAndFillBuffer<GL_ELEMENT_ARRAY_BUFFER>(TrianglesIndices);
+    }
+
+    GLuint SimpleSceneData::GenIdentIndicesBuffer() const {
+        std::vector<int> indices(TrianglesIndices.size());
+        for (size_t i = 0; i < indices.size(); ++i) {
+            indices[i] = i;
+        }
+        return GenAndFillBuffer<GL_ELEMENT_ARRAY_BUFFER>(indices);
     }
 }

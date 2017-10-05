@@ -1,5 +1,5 @@
 //
-// Created by alex on 27.08.17.
+// Created by alex on 05.10.17.
 //
 
 #include "GL/glew.h"
@@ -7,22 +7,21 @@
 #include "glm/gtc/type_ptr.hpp"
 
 #include "../include/SimpleSceneData.h"
-#include "../include/SkeletonVisualizer.h"
+#include "../include/SurfaceVisualizer.h"
 #include "../include/Utils.h"
 
 namespace Hors {
-
-    void SkeletonVisualizer::Run() {
+    void SurfaceVisualizer::Run() {
         SimpleSceneData scene;
         scene.LoadFromFile(config.GetInputDataPath());
-        GLuint PointsBuffer = scene.GenPointsBuffer();
-        auto indexBufferInfo = scene.GenSkeletonIndicesBuffer();
-        GLuint IndicesBuffer = std::get<0>(indexBufferInfo);
-        IndicesSize = std::get<1>(indexBufferInfo);
+        GLuint PointsBuffer = scene.GenTrianglesPointsBuffer();
+        GLuint IndicesBuffer = scene.GenIdentIndicesBuffer();
+        IndicesSize = scene.GetTrianglesIndicesSize();
+        GLuint ColorsBuffer = scene.GenRandomTrianglesColorBuffer();
 
         GLuint Program = CompileShaderProgram(
-            ReadAndCompileShader("../shaders/Skeleton.vert", GL_VERTEX_SHADER),
-            ReadAndCompileShader("../shaders/Skeleton.frag", GL_FRAGMENT_SHADER)
+            ReadAndCompileShader("../shaders/Surface.vert", GL_VERTEX_SHADER),
+            ReadAndCompileShader("../shaders/Surface.frag", GL_FRAGMENT_SHADER)
         );
 
         glUseProgram(Program); CHECK_GL_ERRORS;
@@ -32,8 +31,12 @@ namespace Hors {
         glBindVertexArray(VAO); CHECK_GL_ERRORS;
 
         glBindBuffer(GL_ARRAY_BUFFER, PointsBuffer); CHECK_GL_ERRORS;
-        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr); CHECK_GL_ERRORS;
         glEnableVertexAttribArray(0); CHECK_GL_ERRORS;
+        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr); CHECK_GL_ERRORS;
+
+        glBindBuffer(GL_ARRAY_BUFFER, ColorsBuffer); CHECK_GL_ERRORS;
+        glEnableVertexAttribArray(1); CHECK_GL_ERRORS;
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, nullptr); CHECK_GL_ERRORS;
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesBuffer); CHECK_GL_ERRORS;
 
@@ -45,13 +48,12 @@ namespace Hors {
         );
     }
 
-    void SkeletonVisualizer::RenderFunction() {
+    void SurfaceVisualizer::RenderFunction() {
         glClearColor(0, 0, 0, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUniformMatrix4fv(CameraUniformLocation, 1, GL_FALSE, glm::value_ptr(MainCamera.GetMatrix())); CHECK_GL_ERRORS;
-        glDrawElements(GL_LINES, static_cast<GLsizei>(IndicesSize), GL_UNSIGNED_INT, nullptr); CHECK_GL_ERRORS;
+        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(IndicesSize), GL_UNSIGNED_INT, nullptr); CHECK_GL_ERRORS;
         glFinish(); CHECK_GL_ERRORS;
         glutSwapBuffers();
     }
-
 }

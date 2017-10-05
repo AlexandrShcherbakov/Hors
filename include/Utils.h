@@ -9,6 +9,10 @@
 
 namespace Hors {
     void ThrowExceptionOnGLError(int line, const char * file);
+
+    GLuint ReadAndCompileShader(const std::string & path, const GLenum shaderType);
+
+    GLuint CompileShaderProgram(const GLuint vertexShader, const GLuint fragmentShader);
 }
 
 #endif //HORS_UTILS_H

@@ -8,6 +8,7 @@
 #include <functional>
 #include <map>
 
+#include "Camera.h"
 #include "HorsArgumentParser.h"
 #include "HorsConfig.h"
 
@@ -20,6 +21,8 @@ namespace Hors {
         std::vector<std::function<void(void)> > InitialFunctions;
         int WindowID;
 
+        void AddInitializeArguments();
+        void AddKeyboardEvents();
         void SetGlobalFunctions();
         void KeyboardFunction(const unsigned char key) {
             if (KeyboardEvents.count(key)) {
@@ -37,6 +40,8 @@ namespace Hors {
     protected:
         Config config;
         HorsArgumentParser Parser;
+        GLint CameraUniformLocation;
+        Camera MainCamera;
 
         void RunFullProcess(int argc, char **argv);
         template<typename ProgramClass>
