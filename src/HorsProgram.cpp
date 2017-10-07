@@ -92,6 +92,7 @@ namespace Hors {
         Parser.AddArgument("gl_version", po::value(&(config.contextVersion)), "Version of OpenGL context");
         Parser.AddArgument("title", po::value(&(config.WindowTitle)), "Window title");
         Parser.AddArgument("window_size", po::value(&(config.windowSize)), "Window size");
+        Parser.AddArgument("input_file", po::value(&config.InputDataPath), "Path to input file");
     }
 
     void Program::AddKeyboardEvents() {

@@ -14,8 +14,8 @@ namespace Hors {
 
     class GLVersion {
     private:
-        int Major;
-        int Minor;
+        int Major = 3;
+        int Minor = 0;
 
     public:
         GLVersion() = default;
@@ -40,8 +40,8 @@ namespace Hors {
 
     class WindowSize {
     private:
-        int Width;
-        int Height;
+        int Width = 1024;
+        int Height = 768;
     public:
         WindowSize() = default;
         WindowSize(const int width, const int height): Width(width), Height(height) {}

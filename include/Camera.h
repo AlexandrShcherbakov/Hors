@@ -13,9 +13,9 @@ namespace Hors {
 
     class Camera {
     private:
-        glm::vec3 Position;
-        glm::vec3 Direction;
-        glm::vec3 Up;
+        glm::vec3 Position = glm::vec3(0);
+        glm::vec3 Direction = glm::vec3(0, 0, 1);
+        glm::vec3 Up = glm::vec3(0, 1, 0);
         float FovY = 0;
         float ScreenRatio = 0;
         float ZNear = 0;

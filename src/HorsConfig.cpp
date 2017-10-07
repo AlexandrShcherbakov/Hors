@@ -23,12 +23,10 @@ namespace Hors {
         pt::read_json(path, tree);
         WindowTitle = tree.get<std::string>("Window Title", "Hors Program");
         InputDataPath = tree.get<std::string>("Input Data Path", "");
-        contextVersion = GLVersion(3, 0);
-        if (tree.count("GLVersion") != 0) {
+        if (tree.count("GLVersion")) {
             contextVersion = ExtractGLVersionFromPTree(tree.get_child("GLVersion"));
         }
-        windowSize = WindowSize(1024, 768);
-        if (tree.count("Window Size") != 0) {
+        if (tree.count("Window Size")) {
             windowSize = ExtractWindowSizeFromPTree(tree.get_child("Window Size"));
         }
     }

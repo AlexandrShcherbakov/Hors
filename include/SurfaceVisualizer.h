@@ -2,8 +2,8 @@
 // Created by alex on 05.10.17.
 //
 
-#ifndef HORS_SURFACEVISUALIZER_H
-#define HORS_SURFACEVISUALIZER_H
+#ifndef HORS_SURFACE_VISUALIZER_H
+#define HORS_SURFACE_VISUALIZER_H
 
 #include <GL/glew.h>
 #include <GL/freeglut.h>
@@ -22,4 +22,4 @@ namespace Hors {
 
 }
 
-#endif //HORS_SURFACEVISUALIZER_H
+#endif //HORS_SURFACE_VISUALIZER_H

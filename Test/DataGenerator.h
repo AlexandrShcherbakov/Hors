@@ -2,9 +2,9 @@
 // Created by alex on 07.10.17.
 //
 
-#ifndef HORS_DATAGENERATOR_H
-#define HORS_DATAGENERATOR_H
+#ifndef HORS_DATA_GENERATOR_H
+#define HORS_DATA_GENERATOR_H
 
-void GeneateTestData();
+void GenerateTestData();
 
-#endif //HORS_DATAGENERATOR_H
+#endif //HORS_DATA_GENERATOR_H

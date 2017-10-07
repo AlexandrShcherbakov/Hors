@@ -29,6 +29,6 @@ void GenerateSquare() {
     scene.SaveToFile("SimpleSquare.bin");
 }
 
-void GeneateTestData() {
+void GenerateTestData() {
     GenerateSquare();
 }

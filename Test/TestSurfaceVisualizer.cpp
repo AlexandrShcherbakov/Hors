@@ -8,6 +8,6 @@
 
 
 int main(int argc, char ** argv) {
-    GeneateTestData();
+    GenerateTestData();
     Hors::RunProgram<Hors::SurfaceVisualizer>(argc, argv);
 }

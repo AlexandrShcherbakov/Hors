@@ -116,7 +116,7 @@ namespace Hors {
     GLuint SimpleSceneData::GenIdentIndicesBuffer() const {
         std::vector<int> indices(TrianglesIndices.size());
         for (size_t i = 0; i < indices.size(); ++i) {
-            indices[i] = i;
+            indices[i] = static_cast<int>(i);
         }
         return GenAndFillBuffer<GL_ELEMENT_ARRAY_BUFFER>(indices);
     }
