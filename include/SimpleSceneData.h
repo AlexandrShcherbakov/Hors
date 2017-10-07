@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+#include "GL/glew.h"
 #include "glm/vec4.hpp"
 
 namespace Hors {

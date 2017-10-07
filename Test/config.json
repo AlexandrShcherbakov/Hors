@@ -5,8 +5,8 @@
   },
   "Window Title": "Title from config",
   "Window Size": {
-    "Height": 300,
-    "Width": 1000
+    "Height": 600,
+    "Width": 800
   },
   "Input Data Path": "SimpleSquare.bin"
 }
