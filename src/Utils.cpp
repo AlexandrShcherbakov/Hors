@@ -2,14 +2,16 @@
 // Created by alex on 28.08.17.
 //
 
+#include <tuple>
+#include <set>
+#include <random>
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <vector>
 
 #include "GL/glew.h"
 
-#include "../include/Utils.h"
+#include "Utils.h"
 
 namespace Hors {
 
@@ -108,5 +110,58 @@ namespace Hors {
         }
 
         return program;
+    }
+
+    std::vector<glm::vec4> GetPointsByIndices(const HydraGeomData& data) {
+        std::vector<glm::vec4> points(data.getIndicesNumber());
+        for (unsigned i = 0; i < points.size(); ++i) {
+            unsigned index = data.getTriangleVertexIndicesArray()[i];
+            const int COMPONENTS = 4;
+            for (int j = 0; j < COMPONENTS; ++j) {
+                points[i][j] = data.getVertexPositionsFloat4Array()[4 * index + j];
+            }
+        }
+        return points;
+    }
+
+    std::vector<unsigned> GenerateRangeIndices(const HydraGeomData& data) {
+        std::vector<unsigned> indices(data.getIndicesNumber());
+        for (unsigned i = 0; i < indices.size(); ++i) {
+            indices[i] = i;
+        }
+        return indices;
+    }
+
+    std::vector<glm::vec4> GenRandomTrianglesColors(const HydraGeomData& data) {
+        std::vector<glm::vec4> colors(data.getIndicesNumber());
+        std::default_random_engine engine;
+        std::uniform_real_distribution<float> dist(0.0f, 1.0f);
+        for (unsigned i = 0; i < colors.size(); i += 3) {
+            colors[i] = colors[i + 1] = colors[i + 2] = glm::vec4(dist(engine), dist(engine), dist(engine), 1);
+        }
+        return colors;
+    }
+
+    std::vector<glm::vec4> ExtractPoints(const HydraGeomData& data) {
+        std::vector<glm::vec4> points(data.getVerticesNumber());
+        for (unsigned i = 0; i < points.size(); ++i) {
+            const int COMPONENTS = 4;
+            for (int j = 0; j < COMPONENTS; ++j) {
+                points[i][j] = data.getVertexPositionsFloat4Array()[4 * i + j];
+            }
+        }
+        return points;
+    }
+
+    std::vector<unsigned> GenEdgesIndices(const HydraGeomData& data) {
+        std::vector<unsigned> indices;
+        const unsigned SIDES = 3u;
+        for (unsigned i = 0; i < data.getIndicesNumber(); i += SIDES) {
+            for (unsigned j = 0; j < SIDES; ++j) {
+                indices.push_back(data.getTriangleVertexIndicesArray()[i + j]);
+                indices.push_back(data.getTriangleVertexIndicesArray()[i + (j + 1) % SIDES]);
+            }
+        }
+        return indices;
     }
 }

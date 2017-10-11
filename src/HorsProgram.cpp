@@ -5,7 +5,7 @@
 #include "GL/glew.h"
 #include "GL/freeglut.h"
 
-#include "../include/HorsProgram.h"
+#include "HorsProgram.h"
 
 namespace Hors {
 

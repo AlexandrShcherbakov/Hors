@@ -4,12 +4,15 @@ project(Hors)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -pedantic")
 
+include_directories(include)
+
 set(SOURCE_FILES
     include/Camera.h
     include/HorsArgumentParser.h
     include/HorsConfig.h
     include/HorsProgram.h
-    include/SimpleSceneData.h
+    include/HydraExport.h
+    include/LiteMath.h
     include/SkeletonVisualizer.h
     include/SurfaceVisualizer.h
     include/Utils.h
@@ -17,7 +20,7 @@ set(SOURCE_FILES
     src/HorsArgumentParser.cpp
     src/HorsConfig.cpp
     src/HorsProgram.cpp
-    src/SimpleSceneData.cpp
+    src/HydraExport.cpp
     src/SkeletonVisualizer.cpp
     src/SurfaceVisualizer.cpp
     src/Utils.cpp
@@ -44,3 +47,4 @@ link_directories(${Boost_LIBRARY_DIRS})
 include_directories(${GLM_INCLUDE_DIRS})
 
 add_subdirectory(Test)
+add_subdirectory(Samples)

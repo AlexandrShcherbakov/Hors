@@ -47,13 +47,13 @@ namespace Hors {
         template<typename ProgramClass>
         friend void RunProgram(int argc, char **argv);
 
-        void AddKeyboardEvent(const char key, std::function<void(void)> func) {
+        void AddKeyboardEvent(const char key, std::function<void(void)>&& func) {
             KeyboardEvents[key] = func;
         }
-        void AddKeyboardEvent(const int key, std::function<void(void)> func) {
+        void AddKeyboardEvent(const int key, std::function<void(void)>&& func) {
             SpecialButtonsEvents[key] = func;
         }
-        void AddInitialFunction(std::function<void(void)> func) {
+        void AddInitialFunction(std::function<void(void)>&& func) {
             InitialFunctions.push_back(func);
         }
         void CloseWindow() const;

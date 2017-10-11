@@ -6,19 +6,18 @@
 #include "GL/freeglut.h"
 #include "glm/gtc/type_ptr.hpp"
 
-#include "../include/SimpleSceneData.h"
-#include "../include/SkeletonVisualizer.h"
-#include "../include/Utils.h"
+#include "HydraExport.h"
+#include "SkeletonVisualizer.h"
+#include "Utils.h"
 
 namespace Hors {
 
     void SkeletonVisualizer::Run() {
-        SimpleSceneData scene;
-        scene.LoadFromFile(config.GetInputDataPath());
-        GLuint PointsBuffer = scene.GenPointsBuffer();
-        auto indexBufferInfo = scene.GenSkeletonIndicesBuffer();
-        GLuint IndicesBuffer = std::get<0>(indexBufferInfo);
-        IndicesSize = std::get<1>(indexBufferInfo);
+        HydraGeomData scene;
+        scene.read(config.GetInputDataPath());
+        GLuint PointsBuffer = GenAndFillBuffer<GL_ARRAY_BUFFER>(ExtractPoints(scene));
+        GLuint IndicesBuffer = GenAndFillBuffer<GL_ELEMENT_ARRAY_BUFFER>(GenEdgesIndices(scene));
+        IndicesSize = scene.getIndicesNumber() * 2;
 
         GLuint Program = CompileShaderProgram(
             ReadAndCompileShader("../shaders/Skeleton.vert", GL_VERTEX_SHADER),

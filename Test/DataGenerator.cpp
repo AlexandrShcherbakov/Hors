@@ -2,31 +2,38 @@
 // Created by alex on 07.10.17.
 //
 
-//
-// Created by alex on 21.08.17.
-//
+#include "glm/vec2.hpp"
+#include "glm/vec3.hpp"
+#include "glm/vec4.hpp"
 
-#include <iostream>
-
-#include "../include/SimpleSceneData.h"
+#include "HydraExport.h"
 
 
 void GenerateSquare() {
-    Hors::SimpleSceneData scene;
-    std::vector<glm::tvec4<float> > points = {
+    std::vector<glm::vec4> points = {
         {-0.5, -0.5, 0, 1},
         {-0.5,  0.5, 0, 1},
         { 0.5,  0.5, 0, 1},
         { 0.5, -0.5, 0, 1}
     };
-    scene.SetPoints(points.cbegin(), points.cend());
-    std::vector<glm::tvec4<float> > normals = {4, {0, 0, 1, 0}};
-    scene.SetNormals(normals.begin(), normals.end());
-    std::vector<int> trianglesIndices = {
+    std::vector<glm::vec4> normals = {4, {0, 0, 1, 0}};
+    std::vector<glm::vec2> texCoordinates = {4, {0, 0}};
+    std::vector<uint32> trianglesIndices = {
         0, 1, 3, 1, 2, 3
     };
-    scene.SetTrianglesIndices(trianglesIndices.begin(), trianglesIndices.end());
-    scene.SaveToFile("SimpleSquare.bin");
+    std::vector<uint32> materialNumbers(2, 0);
+    HydraGeomData scene;
+    scene.setData(
+        static_cast<uint32>(points.size()),
+        reinterpret_cast<float*>(points.data()),
+        reinterpret_cast<float*>(normals.data()),
+        nullptr,
+        reinterpret_cast<float*>(texCoordinates.data()),
+        static_cast<uint32>(trianglesIndices.size()),
+        trianglesIndices.data(),
+        materialNumbers.data()
+    );
+    scene.write("SimpleSquare.bin");
 }
 
 void GenerateTestData() {

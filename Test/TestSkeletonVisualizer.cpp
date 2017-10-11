@@ -2,7 +2,7 @@
 // Created by alex on 07.10.17.
 //
 
-#include "../include/SkeletonVisualizer.h"
+#include "SkeletonVisualizer.h"
 
 #include "DataGenerator.h"
 

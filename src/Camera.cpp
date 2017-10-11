@@ -5,7 +5,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtx/string_cast.hpp"
 
-#include "../include/Camera.h"
+#include "Camera.h"
 
 namespace Hors {
     glm::mat4 GenShiftMatrix(const glm::vec3& shift) {

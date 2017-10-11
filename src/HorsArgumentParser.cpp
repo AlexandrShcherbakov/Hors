@@ -2,7 +2,7 @@
 // Created by alex on 26.08.17.
 //
 
-#include "../include/HorsArgumentParser.h"
+#include "HorsArgumentParser.h"
 
 namespace Hors {
     void HorsArgumentParser::Parse(int argc, const char ** argv) {

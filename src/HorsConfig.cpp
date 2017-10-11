@@ -4,7 +4,7 @@
 
 #include "boost/property_tree/json_parser.hpp"
 
-#include "../include/HorsConfig.h"
+#include "HorsConfig.h"
 
 namespace Hors {
 

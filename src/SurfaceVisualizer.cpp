@@ -6,18 +6,18 @@
 #include "GL/freeglut.h"
 #include "glm/gtc/type_ptr.hpp"
 
-#include "../include/SimpleSceneData.h"
-#include "../include/SurfaceVisualizer.h"
-#include "../include/Utils.h"
+#include "HydraExport.h"
+#include "SurfaceVisualizer.h"
+#include "Utils.h"
 
 namespace Hors {
     void SurfaceVisualizer::Run() {
-        SimpleSceneData scene;
-        scene.LoadFromFile(config.GetInputDataPath());
-        GLuint PointsBuffer = scene.GenTrianglesPointsBuffer();
-        GLuint IndicesBuffer = scene.GenIdentIndicesBuffer();
-        IndicesSize = scene.GetTrianglesIndicesSize();
-        GLuint ColorsBuffer = scene.GenRandomTrianglesColorBuffer();
+        HydraGeomData scene;
+        scene.read(config.GetInputDataPath());
+        GLuint PointsBuffer = GenAndFillBuffer<GL_ARRAY_BUFFER>(GetPointsByIndices(scene));
+        GLuint IndicesBuffer = GenAndFillBuffer<GL_ELEMENT_ARRAY_BUFFER>(GenerateRangeIndices(scene));
+        IndicesSize = scene.getIndicesNumber();
+        GLuint ColorsBuffer = GenAndFillBuffer<GL_ARRAY_BUFFER>(GenRandomTrianglesColors(scene));
 
         GLuint Program = CompileShaderProgram(
             ReadAndCompileShader("../shaders/Surface.vert", GL_VERTEX_SHADER),
