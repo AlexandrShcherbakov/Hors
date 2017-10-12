@@ -2,8 +2,8 @@
 // Created by alex on 28.08.17.
 //
 
+#include "glm/geometric.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtx/string_cast.hpp"
 
 #include "Camera.h"
 
@@ -18,5 +18,20 @@ namespace Hors {
         return glm::perspective(glm::radians(FovY), ScreenRatio, ZNear, ZFar)
             * glm::lookAt(Position, Position + Direction, Up)
             * GenShiftMatrix(Position);
+    }
+
+    void Camera::RotateLeft(const float angle) {
+        glm::mat4 rot(1);
+        rot[0][0] = rot[2][2] = cosf(angle);
+        rot[0][2] = -sinf(angle);
+        rot[2][0] = sinf(angle);
+        Direction = glm::normalize(glm::vec3(rot * glm::vec4(Direction, 0)));
+        Up = glm::normalize(glm::vec3(rot * glm::vec4(Up, 0)));
+    }
+
+    void Camera::RotateTop(const float angle) {
+        glm::vec3 left = glm::cross(Up, Direction);
+        Direction = glm::normalize(Direction * cosf(angle) + Up * sinf(angle));
+        Up = glm::normalize(glm::cross(Direction, left));
     }
 }

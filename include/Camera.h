@@ -7,7 +7,6 @@
 
 #include "glm/vec3.hpp"
 #include "glm/mat4x4.hpp"
-#include "glm/geometric.hpp"
 
 namespace Hors {
 
@@ -52,22 +51,13 @@ namespace Hors {
             StepForward(-length);
         }
 
-        void RotateTop(const float angle=0.1f) {
-            glm::vec3 left = glm::cross(Up, Direction);
-            Direction = glm::normalize(Direction * cosf(angle) + Up * sinf(angle));
-            Up = glm::normalize(glm::cross(Direction, left));
-        }
+        void RotateTop(float angle=0.1f);
 
         void RotateDown(const float angle=0.1f) {
             RotateTop(-angle);
         }
 
-        void RotateLeft(const float angle=0.1f) {
-            Direction = glm::normalize(
-                Direction * cosf(angle)
-                + glm::normalize(glm::cross(Up, Direction)) * sinf(angle)
-            );
-        }
+        void RotateLeft(float angle=0.1f);
 
         void RotateRight(const float angle=0.1f) {
             RotateLeft(-angle);
