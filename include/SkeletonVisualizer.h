@@ -14,7 +14,7 @@
 namespace Hors {
 
     class SkeletonVisualizer : public Program {
-        size_t IndicesSize;
+        size_t RunSize;
 
     public:
         void Run() override;

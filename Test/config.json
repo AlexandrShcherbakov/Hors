@@ -8,5 +8,5 @@
     "Height": 600,
     "Width": 800
   },
-  "Input Data Path": "SimpleSquare.bin"
+  "Input Data Path": "../Models/sponza.vsgf"
 }

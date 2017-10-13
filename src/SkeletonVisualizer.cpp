@@ -17,7 +17,7 @@ namespace Hors {
         scene.read(config.GetInputDataPath());
         GLuint PointsBuffer = GenAndFillBuffer<GL_ARRAY_BUFFER>(ExtractPoints(scene));
         GLuint IndicesBuffer = GenAndFillBuffer<GL_ELEMENT_ARRAY_BUFFER>(GenEdgesIndices(scene));
-        IndicesSize = scene.getIndicesNumber() * 2;
+        RunSize = scene.getIndicesNumber() * 2;
 
         GLuint Program = CompileShaderProgram(
             ReadAndCompileShader("../shaders/Skeleton.vert", GL_VERTEX_SHADER),
@@ -48,7 +48,7 @@ namespace Hors {
         glClearColor(0, 0, 0, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUniformMatrix4fv(CameraUniformLocation, 1, GL_FALSE, glm::value_ptr(MainCamera.GetMatrix())); CHECK_GL_ERRORS;
-        glDrawElements(GL_LINES, static_cast<GLsizei>(IndicesSize), GL_UNSIGNED_INT, nullptr); CHECK_GL_ERRORS;
+        glDrawElements(GL_LINES, static_cast<GLsizei>(RunSize), GL_UNSIGNED_INT, nullptr); CHECK_GL_ERRORS;
         glFinish(); CHECK_GL_ERRORS;
         glutSwapBuffers();
     }

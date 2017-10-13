@@ -14,7 +14,7 @@ namespace Hors {
 
     class SurfaceVisualizer : public Program {
     private:
-        size_t IndicesSize;
+        size_t RunSize;
     public:
         void Run() override;
         void RenderFunction() override;
