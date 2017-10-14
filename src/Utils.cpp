@@ -142,17 +142,6 @@ namespace Hors {
         return colors;
     }
 
-    std::vector<glm::vec4> ExtractPoints(const HydraGeomData& data) {
-        std::vector<glm::vec4> points(data.getVerticesNumber());
-        for (unsigned i = 0; i < points.size(); ++i) {
-            const int COMPONENTS = 4;
-            for (int j = 0; j < COMPONENTS; ++j) {
-                points[i][j] = data.getVertexPositionsFloat4Array()[4 * i + j];
-            }
-        }
-        return points;
-    }
-
     std::vector<unsigned> GenEdgesIndices(const HydraGeomData& data) {
         std::vector<unsigned> indices;
         const unsigned SIDES = 3u;

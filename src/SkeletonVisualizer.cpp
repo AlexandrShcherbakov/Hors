@@ -15,7 +15,10 @@ namespace Hors {
     void SkeletonVisualizer::Run() {
         HydraGeomData scene;
         scene.read(config.GetInputDataPath());
-        GLuint PointsBuffer = GenAndFillBuffer<GL_ARRAY_BUFFER>(ExtractPoints(scene));
+        GLuint PointsBuffer = GenAndFillBuffer<GL_ARRAY_BUFFER>(
+            scene.getVertexPositionsFloat4Array(),
+            scene.getVerticesNumber() * 4
+        );
         GLuint IndicesBuffer = GenAndFillBuffer<GL_ELEMENT_ARRAY_BUFFER>(GenEdgesIndices(scene));
         RunSize = scene.getIndicesNumber() * 2;
 
