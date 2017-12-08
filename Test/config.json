@@ -1,12 +1,6 @@
 {
-  "GLVersion": {
-    "Major": 3,
-    "Minor": 0
-  },
-  "Window Title": "Title from config",
-  "Window Size": {
-    "Height": 600,
-    "Width": 800
-  },
-  "Input Data Path": "../Models/sponza.vsgf"
+  "GLVersion": "3.0",
+  "Title": "Title from config",
+  "WindowSize": "800x600",
+  "InputFile": "../Models/sponza.vsgf"
 }

@@ -13,7 +13,7 @@
 namespace Hors {
     void SurfaceVisualizer::Run() {
         HydraGeomData scene;
-        scene.read(config.GetInputDataPath());
+        scene.read(Get("InputFile"));
         GLuint PointsBuffer = GenAndFillBuffer<GL_ARRAY_BUFFER>(GetPointsByIndices(scene));
         GLuint IndicesBuffer = GenAndFillBuffer<GL_ELEMENT_ARRAY_BUFFER>(GenerateRangeIndices(scene));
         RunSize = scene.getIndicesNumber();
@@ -45,7 +45,7 @@ namespace Hors {
 
         MainCamera = Camera(
             glm::vec3(0), glm::vec3(0, 0, 1), glm::vec3(0, 1, 0),
-            45, config.GetWindowSize().GetScreenRadio(), 0.0001, 10000
+            45, Get<Hors::WindowSize>("WindowSize").GetScreenRadio(), 0.0001, 10000
         );
     }
 

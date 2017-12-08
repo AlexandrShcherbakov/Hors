@@ -8,103 +8,47 @@
 #include <fstream>
 #include <string>
 
+#include "HorsArgumentParser.h"
+
 namespace Hors {
 
-    class Program;
-
-    class GLVersion {
-    private:
-        int Major = 3;
-        int Minor = 0;
-
-    public:
-        GLVersion() = default;
-        GLVersion(const int major, const int minor): Major(major), Minor(minor) {}
-
-        int GetMajor() const {
-            return Major;
-        }
-        int GetMinor() const {
-            return Minor;
-        }
-
-        friend std::istream& operator>>(std::istream& in, GLVersion& version) {
-            char dot;
-            return in >> version.Major >> dot >> version.Minor;
-        }
-
-        friend std::ostream& operator<<(std::ostream& out, const GLVersion& version) {
-            return out << version.Major << '.' << version.Minor;
-        }
-    };
-
-    class WindowSize {
-    private:
-        int Width = 1024;
-        int Height = 768;
-    public:
-        WindowSize() = default;
-        WindowSize(const int width, const int height): Width(width), Height(height) {}
-
-        int GetWidth() const {
-            return Width;
-        }
-        int GetHeight() const {
-            return Height;
-        }
-        float GetScreenRadio() const {
-            return static_cast<float>(Width) / static_cast<float>(Height);
-        }
-
-        friend std::istream& operator>>(std::istream& in, WindowSize& size) {
-            char x;
-            return in >> size.Width >> x >> size.Height;
-        }
-
-        friend std::ostream& operator<<(std::ostream& out, const WindowSize& size) {
-            return out << size.Width << 'x' << size.Height;
-        }
-    };
-
     class Config {
-        friend Program;
     private:
-        GLVersion contextVersion;
-        WindowSize windowSize;
-        std::string WindowTitle;
-        std::string InputDataPath;
+        HorsArgumentParser Parser;
+        std::map<std::string, std::string> AllArgs;
+        std::string configFile;
 
-    public:
         void LoadFromFile(const std::string& path);
+    public:
+        Config();
 
-        friend std::istream& operator>>(std::istream& in, Config& config) {
-            std::string path;
-            in >> path;
-            config.LoadFromFile(path);
-            return in;
+        template<typename T>
+        void AddArgument(const std::string& argName, const T& defaultValue, const std::string& description) {
+            std::stringstream ss;
+            ss << defaultValue;
+            AllArgs[argName] = ss.str();
+            Parser.AddArgument(argName, po::value<std::string>(&(AllArgs[argName])), description);
         }
 
-        friend std::ostream& operator<<(std::ostream& out, const Config& config) {
-            return out << "Window Title: " << config.WindowTitle << std::endl
-                << "Window size: " << config.windowSize << std::endl
-                << "OpenGL context version: " << config.contextVersion << std::endl;
+        std::string Get(const std::string& argName) {
+            return AllArgs[argName];
         }
 
-        const GLVersion GetGLVersion() const {
-            return contextVersion;
+        template<typename T>
+        T Get(const std::string& argName) {
+            static std::map<std::string, T> cache;
+            auto cachedIt = cache.find(argName);
+            if (cachedIt != cache.end()) {
+                return cachedIt->second;
+            }
+            auto globalIt = AllArgs.find(argName);
+            assert(globalIt != AllArgs.end());
+            std::stringstream ss(globalIt->second);
+            ss >> cache[argName];
+            return cache[argName];
         }
 
-        const WindowSize GetWindowSize() const {
-            return windowSize;
-        }
-
-        const std::string GetWindowTitle() const {
-            return WindowTitle;
-        }
-
-        const std::string GetInputDataPath() const {
-            return InputDataPath;
-        }
+        void Init(int argc, const char ** argv);
     };
 
 }

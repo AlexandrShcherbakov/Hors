@@ -14,7 +14,7 @@ namespace Hors {
 
     void SkeletonVisualizer::Run() {
         HydraGeomData scene;
-        scene.read(config.GetInputDataPath());
+        scene.read(Get("InputFile"));
         GLuint PointsBuffer = GenAndFillBuffer<GL_ARRAY_BUFFER>(
             scene.getVertexPositionsFloat4Array(),
             scene.getVerticesNumber() * 4
@@ -43,7 +43,7 @@ namespace Hors {
 
         MainCamera = Camera(
             glm::vec3(0), glm::vec3(0, 0, 1), glm::vec3(0, 1, 0),
-            45, config.GetWindowSize().GetScreenRadio(), 0.0001, 10000
+            45, Get<Hors::WindowSize>("WindowSize").GetScreenRadio(), 0.0001, 10000
         );
     }
 

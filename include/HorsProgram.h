@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "HorsArgumentParser.h"
 #include "HorsConfig.h"
+#include "BaseArgumentsClasses.h"
 
 namespace Hors {
 
@@ -19,8 +20,9 @@ namespace Hors {
         std::map<char, std::function<void(void)> > KeyboardEvents;
         std::map<int, std::function<void(void)> > SpecialButtonsEvents;
         std::vector<std::function<void(void)> > InitialFunctions;
-        int WindowID;
+        Config config;
 
+        void InitGlut(int argc, char **argv);
         void AddInitializeArguments();
         void AddKeyboardEvents();
         void SetGlobalFunctions();
@@ -38,8 +40,6 @@ namespace Hors {
         virtual void Run() = 0;
 
     protected:
-        Config config;
-        HorsArgumentParser Parser;
         GLint CameraUniformLocation;
         Camera MainCamera;
 
@@ -64,6 +64,20 @@ namespace Hors {
         Program(Program&&) = default;
         Program& operator=(const Program&) = default;
         Program& operator=(Program&&) = default;
+
+        template<typename T>
+        T Get(const std::string& paramName) {
+            return config.Get<T>(paramName);
+        }
+
+        std::string Get(const std::string& paramName) {
+            return config.Get(paramName);
+        }
+
+        template<typename T>
+        void AddArgument(const std::string& paramName, const T& defaultValue, const std::string& description="") {
+            return config.AddArgument(paramName, defaultValue, description);
+        }
 
         virtual ~Program() = default;
     };

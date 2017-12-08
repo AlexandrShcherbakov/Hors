@@ -5,6 +5,8 @@
 #include "GL/glew.h"
 #include "GL/freeglut.h"
 
+#include "BaseArgumentsClasses.h"
+
 #include "HorsProgram.h"
 
 namespace Hors {
@@ -68,17 +70,16 @@ namespace Hors {
         GlobalFunctionContainer::Get().CallRenderFunction();
     }
 
-    int InitGlut(const Config &config, int argc, char **argv) {
+    void Program::InitGlut(int argc, char **argv) {
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
-        glutInitContextVersion(config.GetGLVersion().GetMajor(), config.GetGLVersion().GetMinor());
-        glutInitWindowSize(config.GetWindowSize().GetWidth(), config.GetWindowSize().GetHeight());
-        int windowId = glutCreateWindow(config.GetWindowTitle().c_str());
-        glutKeyboardFunc(KeyboardFunction);
-        glutSpecialFunc(SpecialButtonFunction);
-        glutDisplayFunc(RenderFunction);
+        glutInitContextVersion(Get<GLVersion>("GLVersion").GetMajor(), Get<GLVersion>("GLVersion").GetMinor());
+        glutInitWindowSize(Get<WindowSize>("WindowSize").GetWidth(), Get<WindowSize>("WindowSize").GetHeight());
+        glutCreateWindow(Get("Title").c_str());
+        glutKeyboardFunc(Hors::KeyboardFunction);
+        glutSpecialFunc(Hors::SpecialButtonFunction);
+        glutDisplayFunc(Hors::RenderFunction);
         glutIdleFunc(glutPostRedisplay);
-        return windowId;
     }
 
     void RunInitialFunctions(std::vector<std::function<void(void)> >& funcs) {
@@ -88,11 +89,10 @@ namespace Hors {
     }
 
     void Program::AddInitializeArguments() {
-        Parser.AddArgument("config", po::value(&config), "Path to configuration file");
-        Parser.AddArgument("gl_version", po::value(&(config.contextVersion)), "Version of OpenGL context");
-        Parser.AddArgument("title", po::value(&(config.WindowTitle)), "Window title");
-        Parser.AddArgument("window_size", po::value(&(config.windowSize)), "Window size");
-        Parser.AddArgument("input_file", po::value(&config.InputDataPath), "Path to input file");
+        AddArgument("GLVersion", GLVersion(), "Version of OpenGL context");
+        AddArgument("Title", "Hors", "Window title");
+        AddArgument("WindowSize", WindowSize(), "Window size");
+        AddArgument("InputFile", "", "Path to input file");
     }
 
     void Program::AddKeyboardEvents() {
@@ -123,9 +123,9 @@ namespace Hors {
     }
 
     void Program::RunFullProcess(int argc, char **argv) {
-        Parser.Parse(argc, const_cast<const char **>(argv));
+        config.Init(argc, const_cast<const char **>(argv));
         SetGlobalFunctions();
-        WindowID = InitGlut(config, argc, argv);
+        InitGlut(argc, argv);
         GLenum err = glewInit();
         if (GLEW_OK != err) {
             std::cerr << "Error: " << glewGetErrorString(err) << std::endl;
@@ -139,6 +139,5 @@ namespace Hors {
     void Program::CloseWindow() const {
         GlobalFunctionContainer::Get().SetDefaults();
         glutLeaveMainLoop();
-        glutDestroyWindow(WindowID);
     }
 }

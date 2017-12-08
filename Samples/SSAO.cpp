@@ -27,8 +27,10 @@ class SSAO : public Hors::Program {
         glGenTextures(1, &DepthTexture); CHECK_GL_ERRORS;
         glBindTexture(GL_TEXTURE_2D, DepthTexture); CHECK_GL_ERRORS;
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, config.GetWindowSize().GetWidth(),
-                     config.GetWindowSize().GetHeight(), 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr); CHECK_GL_ERRORS;
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24,
+                     Get<Hors::WindowSize>("WindowSize").GetWidth(),
+                     Get<Hors::WindowSize>("WindowSize").GetHeight(),
+                     0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr); CHECK_GL_ERRORS;
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); CHECK_GL_ERRORS;
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); CHECK_GL_ERRORS;
@@ -117,11 +119,11 @@ protected:
     void Run() override {
         MainCamera = Hors::Camera(
             glm::vec3(0, 0.025, 0), glm::vec3(1, 0, 0), glm::vec3(0, 1, 0),
-            45, config.GetWindowSize().GetScreenRadio(), 0.0001, 10000
+            45, Get<Hors::WindowSize>("WindowSize").GetScreenRadio(), 0.0001, 10000
         );
         GenDepthRenderTarget();
         HydraGeomData scene;
-        scene.read(config.GetInputDataPath());
+        scene.read(Get("InputFile"));
         GenDepthRenderProgram();
         GenBuffers(scene);
         GenSceneGeometryVAO();
@@ -133,8 +135,8 @@ protected:
         glActiveTexture(GL_TEXTURE0); CHECK_GL_ERRORS;
         glBindTexture(GL_TEXTURE_2D, DepthTexture); CHECK_GL_ERRORS;
         Hors::SetUniform(MainRenderProgram, "DepthTexture", 0);
-        Hors::SetUniform(MainRenderProgram, "ScreenWidth", config.GetWindowSize().GetWidth());
-        Hors::SetUniform(MainRenderProgram, "ScreenHeight", config.GetWindowSize().GetHeight());
+        Hors::SetUniform(MainRenderProgram, "ScreenWidth", Get<Hors::WindowSize>("WindowSize").GetWidth());
+        Hors::SetUniform(MainRenderProgram, "ScreenHeight", Get<Hors::WindowSize>("WindowSize").GetHeight());
 
         RunSize = scene.getIndicesNumber();
         glEnable(GL_DEPTH_TEST); CHECK_GL_ERRORS;

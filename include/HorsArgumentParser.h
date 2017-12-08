@@ -18,7 +18,6 @@ namespace Hors {
         po::options_description Description;
         po::variables_map ParsedOptions;
     public:
-        void AddArgument(const std::string& optName, const std::string& description);
         void AddArgument(
                 const std::string& optName,
                 const po::value_semantic* optSemantic,

@@ -12,14 +12,6 @@ namespace Hors {
 
     void HorsArgumentParser::AddArgument(
             const std::string& optName,
-            const std::string& description
-    ) {
-        Description.add_options()
-                (optName.c_str(), description.c_str());
-    }
-
-    void HorsArgumentParser::AddArgument(
-            const std::string& optName,
             const po::value_semantic* optSemantic,
             const std::string& description
     ) {
