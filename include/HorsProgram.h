@@ -8,6 +8,8 @@
 #include <functional>
 #include <map>
 
+#include <GL/glew.h>
+
 #include "Camera.h"
 #include "HorsArgumentParser.h"
 #include "HorsConfig.h"
