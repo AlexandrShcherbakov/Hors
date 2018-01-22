@@ -30,7 +30,13 @@ namespace Hors {
     }
 
     void Camera::RotateTop(const float angle) {
-        glm::vec3 left = glm::cross(Up, Direction);
+
+        const auto left = glm::cross(Up, Direction);
+        const bool rotateUnderBottomBorder = angle < 0 && glm::dot(Direction, glm::vec3(0, -1, 0)) > 0.9f;
+        const bool rotateAboveTopBorder = angle > 0 && glm::dot(Direction, glm::vec3(0, 1, 0)) > 0.9f;
+        if (rotateAboveTopBorder || rotateUnderBottomBorder) {
+            return;
+        }
         Direction = glm::normalize(Direction * cosf(angle) + Up * sinf(angle));
         Up = glm::normalize(glm::cross(Direction, left));
     }
