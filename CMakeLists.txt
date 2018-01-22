@@ -14,6 +14,7 @@ set(SOURCE_FILES
     include/HorsProgram.h
     include/HydraExport.h
     include/LiteMath.h
+    include/SceneProperties.h
     include/SkeletonVisualizer.h
     include/SurfaceVisualizer.h
     include/Utils.h
@@ -22,6 +23,7 @@ set(SOURCE_FILES
     src/HorsConfig.cpp
     src/HorsProgram.cpp
     src/HydraExport.cpp
+    src/SceneProperties.cpp
     src/SkeletonVisualizer.cpp
     src/SurfaceVisualizer.cpp
     src/Utils.cpp
@@ -46,6 +48,10 @@ include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
 
 include_directories(${GLM_INCLUDE_DIRS})
+
+include_directories("~/3rdPartyLibs")
+
+link_directories("~/3rdPartyLibs/pugixml-1.8/build")
 
 add_subdirectory(Test)
 add_subdirectory(Samples)
