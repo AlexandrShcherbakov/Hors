@@ -153,4 +153,13 @@ namespace Hors {
         }
         return indices;
     }
+
+    glm::vec3 ReadVec3(const std::string& s) {
+        glm::vec3 result;
+        std::stringstream ss(s);
+        for (int i = 0; i < 3; ++i) {
+            ss >> result[i];
+        }
+        return result;
+    }
 }

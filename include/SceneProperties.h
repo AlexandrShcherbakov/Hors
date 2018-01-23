@@ -11,6 +11,7 @@
 #include <glm/vec4.hpp>
 #include <pugixml-1.8/src/pugixml.hpp>
 
+#include "Camera.h"
 
 namespace Hors {
 
@@ -20,6 +21,7 @@ namespace Hors {
         SceneProperties(const std::string&);
 
         std::vector<glm::vec4> GetDiffuseColors() const;
+        std::vector<Camera> GetCameras(float screenRatio = 800.0f / 600) const;
     };
 
 }

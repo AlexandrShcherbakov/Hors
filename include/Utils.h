@@ -64,6 +64,8 @@ namespace Hors {
         }
         SetUniformByLocation(location, value);
     }
+
+    glm::vec3 ReadVec3(const std::string& s);
 }
 
 #endif //HORS_UTILS_H
