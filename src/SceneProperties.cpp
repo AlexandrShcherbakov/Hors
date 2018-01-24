@@ -49,4 +49,22 @@ namespace Hors {
         }
         return cameras;
     }
+
+    std::vector<SpotLight> SceneProperties::GetLights() const {
+        std::vector<SpotLight> lights;
+        for (auto & lightNode: doc.child("COLLADA").child("library_lights").children("light")) {
+            if (lightNode.attribute("type").as_string() != std::string("Spot")) {
+                continue;
+            }
+            lights.emplace_back(SpotLight(
+                ReadVec3(lightNode.child("position").text().as_string()),
+                ReadVec3(lightNode.child("direction").text().as_string()),
+                ReadVec3(lightNode.child("intensity").child("color").text().as_string()),
+                lightNode.child("intensity").child("multiplier").text().as_float(),
+                lightNode.child("falloff_angle").text().as_float(),
+                lightNode.child("falloff_angle2").text().as_float()
+            ));
+        }
+        return lights;
+    }
 }
