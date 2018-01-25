@@ -52,6 +52,7 @@ namespace Hors {
         std::vector<glm::vec4> GetDiffuseColors() const;
         std::vector<Camera> GetCameras(float screenRatio = 800.0f / 600) const;
         std::vector<SpotLight> GetLights() const;
+        std::vector<glm::vec4> GetSpecularColors() const;
     };
 }
 

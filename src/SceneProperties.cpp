@@ -67,4 +67,19 @@ namespace Hors {
         }
         return lights;
     }
+
+    std::vector<glm::vec4> SceneProperties::GetSpecularColors() const {
+        std::vector<glm::vec4> colors;
+        for(auto & material: doc.child("COLLADA").child("library_materials").children("material")) {
+            uint materialId = material.attribute("maxid").as_uint();
+            if (materialId >= colors.size()) {
+                colors.resize(static_cast<unsigned>(materialId + 1));
+            }
+            colors[materialId] = glm::vec4(
+                ReadVec3(material.child("hydra").child("reflectivity").child("color").text().as_string()),
+                material.child("hydra").child("reflectivity").child("cos_power").text().as_float()
+            );
+        }
+        return colors;
+    }
 }
