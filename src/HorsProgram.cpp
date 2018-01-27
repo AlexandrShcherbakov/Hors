@@ -72,7 +72,7 @@ namespace Hors {
 
     void Program::InitGlut(int argc, char **argv) {
         glutInit(&argc, argv);
-        glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+        glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
         glutInitContextVersion(Get<GLVersion>("GLVersion").GetMajor(), Get<GLVersion>("GLVersion").GetMinor());
         glutInitWindowSize(Get<WindowSize>("WindowSize").GetWidth(), Get<WindowSize>("WindowSize").GetHeight());
         glutCreateWindow(Get("Title").c_str());
