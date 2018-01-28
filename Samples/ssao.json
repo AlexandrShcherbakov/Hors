@@ -2,5 +2,5 @@
   "GLVersion": "4.0",
   "Title": "Title from config",
   "WindowSize": "1366x768",
-  "InputFile": "../Models/sponza.vsgf"
+  "InputFile": "Models/CornellBox.vsgf"
 }

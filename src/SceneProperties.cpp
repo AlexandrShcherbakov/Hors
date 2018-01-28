@@ -37,7 +37,7 @@ namespace Hors {
             const float fovY = cameraNode.child("fov").text().as_float();
             const float zNear = cameraNode.child("nearClipPlane").text().as_float();
             const float zFar = cameraNode.child("farClipPlane").text().as_float();
-            cameras.push_back(Camera(
+            cameras.emplace_back(Camera(
                 position,
                 direction,
                 up,

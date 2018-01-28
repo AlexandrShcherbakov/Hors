@@ -2,6 +2,7 @@
 
 uniform sampler2D DepthTexture;
 uniform sampler2D RandomPlanes;
+uniform sampler2D NormalTexture;
 uniform int ScreenWidth;
 uniform int ScreenHeight;
 
@@ -32,13 +33,16 @@ void main() {
     float visibleSamples = 0;
     ivec2 randomPlaneindex = ivec2(gl_FragCoord.xy) % RANDOM_PLANES_TEXTURE_SIDE;
     vec3 randomPlane = texture(RandomPlanes, vec2(randomPlaneindex) / RANDOM_PLANES_TEXTURE_SIDE).xyz;
+    vec3 normal = texture(NormalTexture, gl_FragCoord.xy / screenSize).xyz;
 
     for (int i = 0; i < SAMPLES_COUNT; ++i) {
         vec3 reflectedSample = reflect(samples[i].xyz, randomPlane);
-        float sampleDepth = texture(DepthTexture, (gl_FragCoord.xy + reflectedSample.xy * radius) / screenSize).x;
+        vec2 sampleTextureCoord = (gl_FragCoord.xy + reflectedSample.xy * radius) / screenSize;
+        float sampleDepth = texture(DepthTexture, sampleTextureCoord).x;
         float zSample = zFar * zNear / (sampleDepth * (zFar - zNear) - zFar);
+        vec4 sampleNormal = texture(NormalTexture, sampleTextureCoord);
 
-        visibleSamples += float(zSample <= z);
+        visibleSamples += 1 - int(zSample > z) * int(dot(sampleNormal, vertNormal) < 0);
     }
-    outColor = vec4(visibleSamples / SAMPLES_COUNT) + 0.3;
+    outColor = vec4(visibleSamples / SAMPLES_COUNT);
 }

@@ -47,7 +47,7 @@ namespace Hors {
     class SceneProperties {
         pugi::xml_document doc;
     public:
-        SceneProperties(const std::string&);
+        explicit SceneProperties(const std::string&);
 
         std::vector<glm::vec4> GetDiffuseColors() const;
         std::vector<Camera> GetCameras(float screenRatio = 800.0f / 600) const;
