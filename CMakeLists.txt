@@ -27,7 +27,7 @@ set(SOURCE_FILES
     src/SkeletonVisualizer.cpp
     src/SurfaceVisualizer.cpp
     src/Utils.cpp
-)
+        src/BaseMesh.cpp include/BaseMesh.h)
 
 add_library(Hors STATIC ${SOURCE_FILES})
 

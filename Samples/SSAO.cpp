@@ -8,19 +8,16 @@
 #include <GL/freeglut.h>
 
 #include "HorsProgram.h"
+#include "BaseMesh.h"
 #include "Utils.h"
 
 class SSAO : public Hors::Program {
     GLuint GBufferFramebuffer = 0;
     GLuint DepthTexture = 0;
     GLuint NormalTexture = 0;
-    GLuint PointsBuffer = 0;
-    GLuint NormalBuffer = 0;
-    GLuint IndicesBuffer = 0;
-    GLuint SceneGeometryVAO = 0;
+    Hors::BaseMesh SceneMesh;
     GLuint GBufferRenderProgram = 0;
     GLuint MainRenderProgram = 0;
-    GLsizei RunSize = 0;
 
     void GenDepthRenderTarget() {
         glGenFramebuffers(1, &GBufferFramebuffer); CHECK_GL_ERRORS;
@@ -90,35 +87,6 @@ class SSAO : public Hors::Program {
         glUseProgram(MainRenderProgram); CHECK_GL_ERRORS;
     }
 
-    void GenSceneGeometryVAO() {
-        glGenVertexArrays(1, &SceneGeometryVAO); CHECK_GL_ERRORS;
-        glBindVertexArray(SceneGeometryVAO); CHECK_GL_ERRORS;
-
-        glBindBuffer(GL_ARRAY_BUFFER, PointsBuffer); CHECK_GL_ERRORS;
-        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr); CHECK_GL_ERRORS;
-        glEnableVertexAttribArray(0); CHECK_GL_ERRORS;
-
-        glBindBuffer(GL_ARRAY_BUFFER, NormalBuffer); CHECK_GL_ERRORS;
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, nullptr); CHECK_GL_ERRORS;
-        glEnableVertexAttribArray(1); CHECK_GL_ERRORS;
-
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesBuffer); CHECK_GL_ERRORS;
-    }
-
-    void GenBuffers(const HydraGeomData& scene) {
-        PointsBuffer = Hors::GenAndFillBuffer<GL_ARRAY_BUFFER>(
-            scene.getVertexPositionsFloat4Array(),
-            scene.getVerticesNumber() * 4
-        );
-        NormalBuffer = Hors::GenAndFillBuffer<GL_ARRAY_BUFFER>(
-            scene.getVertexNormalsFloat4Array(),
-            scene.getVerticesNumber() * 4
-        );
-        IndicesBuffer = Hors::GenAndFillBuffer<GL_ELEMENT_ARRAY_BUFFER>(
-            scene.getTriangleVertexIndicesArray(),
-            scene.getIndicesNumber()
-        );
-    }
 
     void GenRandomPlanesTexture() {
         const int SIDE = 4;
@@ -152,11 +120,10 @@ protected:
         HydraGeomData scene;
         scene.read(Get("InputFile"));
         GenDepthRenderProgram();
-        GenBuffers(scene);
-        GenSceneGeometryVAO();
+        SceneMesh.Init(scene);
 
         GenMainRenderProgram();
-        glBindVertexArray(SceneGeometryVAO); CHECK_GL_ERRORS;
+        SceneMesh.Bind();
 
         GenRandomPlanesTexture();
         glActiveTexture(GL_TEXTURE0); CHECK_GL_ERRORS;
@@ -168,7 +135,6 @@ protected:
         Hors::SetUniform(MainRenderProgram, "ScreenWidth", Get<Hors::WindowSize>("WindowSize").GetWidth());
         Hors::SetUniform(MainRenderProgram, "ScreenHeight", Get<Hors::WindowSize>("WindowSize").GetHeight());
 
-        RunSize = scene.getIndicesNumber();
         glEnable(GL_DEPTH_TEST); CHECK_GL_ERRORS;
     }
 
@@ -178,7 +144,7 @@ protected:
 
         glUseProgram(GBufferRenderProgram); CHECK_GL_ERRORS;
         Hors::SetUniform(GBufferRenderProgram, "CameraMatrix", MainCamera.GetMatrix());
-        glDrawElements(GL_TRIANGLES, RunSize, GL_UNSIGNED_INT, nullptr); CHECK_GL_ERRORS;
+        glDrawElements(GL_TRIANGLES, SceneMesh.GetIndicesCount(), GL_UNSIGNED_INT, nullptr); CHECK_GL_ERRORS;
         glFinish(); CHECK_GL_ERRORS;
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0); CHECK_GL_ERRORS;
@@ -186,7 +152,7 @@ protected:
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); CHECK_GL_ERRORS;
         glUseProgram(MainRenderProgram); CHECK_GL_ERRORS;
         Hors::SetUniform(MainRenderProgram, "CameraMatrix", MainCamera.GetMatrix());
-        glDrawElements(GL_TRIANGLES, RunSize, GL_UNSIGNED_INT, nullptr); CHECK_GL_ERRORS;
+        glDrawElements(GL_TRIANGLES, SceneMesh.GetIndicesCount(), GL_UNSIGNED_INT, nullptr); CHECK_GL_ERRORS;
         glFinish(); CHECK_GL_ERRORS;
         glutSwapBuffers();
     }
