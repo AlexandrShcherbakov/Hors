@@ -46,10 +46,10 @@ class SSAO : public Hors::Program {
         glBindTexture(GL_TEXTURE_2D, NormalTexture); CHECK_GL_ERRORS;
 
         glTexImage2D(
-            GL_TEXTURE_2D, 0, GL_RGBA8,
+            GL_TEXTURE_2D, 0, GL_RGBA32F,
             Get<Hors::WindowSize>("WindowSize").GetWidth(),
             Get<Hors::WindowSize>("WindowSize").GetHeight(),
-            0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr); CHECK_GL_ERRORS;
+            0, GL_RGBA, GL_FLOAT, nullptr); CHECK_GL_ERRORS;
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); CHECK_GL_ERRORS;
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); CHECK_GL_ERRORS;
