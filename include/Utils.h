@@ -13,29 +13,26 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/vec4.hpp>
 
+#include "GLResourceWrappers.h"
 #include "HydraExport.h"
 
-#define CHECK_GL_ERRORS Hors::ThrowExceptionOnGLError(__LINE__,__FILE__);
-
 namespace Hors {
-    void ThrowExceptionOnGLError(int line, const char * file);
-
     GLuint ReadAndCompileShader(const std::string & path, GLenum shaderType);
 
     GLuint CompileShaderProgram(GLuint vertexShader, GLuint fragmentShader);
 
     template<GLenum Target, typename T>
-    GLuint GenAndFillBuffer(const T* data, const size_t size) {
-        GLuint buffer;
-        glGenBuffers(1, &buffer); CHECK_GL_ERRORS;
-        glBindBuffer(Target, buffer); CHECK_GL_ERRORS;
+    GLBuffer GenAndFillBuffer(const T* data, const size_t size) {
+        auto buffer = MakeGLBuffer();
+        glGenBuffers(1, buffer.get()); CHECK_GL_ERRORS;
+        glBindBuffer(Target, *buffer); CHECK_GL_ERRORS;
         glBufferData(Target, size * sizeof(T), data, GL_STATIC_DRAW); CHECK_GL_ERRORS;
         glBindBuffer(Target, 0); CHECK_GL_ERRORS;
         return buffer;
     }
 
     template<GLenum Target, typename T>
-    GLuint GenAndFillBuffer(const std::vector<T>& data) {
+    GLBuffer GenAndFillBuffer(const std::vector<T>& data) {
         return GenAndFillBuffer<Target>(data.data(), data.size());
     }
 

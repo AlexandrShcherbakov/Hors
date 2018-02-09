@@ -14,10 +14,10 @@ namespace Hors {
     void SurfaceVisualizer::Run() {
         HydraGeomData scene;
         scene.read(Get("InputFile"));
-        GLuint PointsBuffer = GenAndFillBuffer<GL_ARRAY_BUFFER>(GetPointsByIndices(scene));
-        GLuint IndicesBuffer = GenAndFillBuffer<GL_ELEMENT_ARRAY_BUFFER>(GenerateRangeIndices(scene));
+        auto PointsBuffer = GenAndFillBuffer<GL_ARRAY_BUFFER>(GetPointsByIndices(scene));
+        auto IndicesBuffer = GenAndFillBuffer<GL_ELEMENT_ARRAY_BUFFER>(GenerateRangeIndices(scene));
         RunSize = scene.getIndicesNumber();
-        GLuint ColorsBuffer = GenAndFillBuffer<GL_ARRAY_BUFFER>(GenRandomTrianglesColors(scene));
+        auto ColorsBuffer = GenAndFillBuffer<GL_ARRAY_BUFFER>(GenRandomTrianglesColors(scene));
 
         GLuint Program = CompileShaderProgram(
             ReadAndCompileShader("../shaders/Surface.vert", GL_VERTEX_SHADER),
@@ -30,15 +30,15 @@ namespace Hors {
         glGenVertexArrays(1, &VAO); CHECK_GL_ERRORS;
         glBindVertexArray(VAO); CHECK_GL_ERRORS;
 
-        glBindBuffer(GL_ARRAY_BUFFER, PointsBuffer); CHECK_GL_ERRORS;
+        glBindBuffer(GL_ARRAY_BUFFER, *PointsBuffer); CHECK_GL_ERRORS;
         glEnableVertexAttribArray(0); CHECK_GL_ERRORS;
         glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr); CHECK_GL_ERRORS;
 
-        glBindBuffer(GL_ARRAY_BUFFER, ColorsBuffer); CHECK_GL_ERRORS;
+        glBindBuffer(GL_ARRAY_BUFFER, *ColorsBuffer); CHECK_GL_ERRORS;
         glEnableVertexAttribArray(1); CHECK_GL_ERRORS;
         glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, nullptr); CHECK_GL_ERRORS;
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesBuffer); CHECK_GL_ERRORS;
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *IndicesBuffer); CHECK_GL_ERRORS;
         glEnable(GL_DEPTH_TEST); CHECK_GL_ERRORS;
 
         CameraUniformLocation = glGetUniformLocation(Program, "CameraMatrix"); CHECK_GL_ERRORS;

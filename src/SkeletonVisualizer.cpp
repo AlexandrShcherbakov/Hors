@@ -15,11 +15,11 @@ namespace Hors {
     void SkeletonVisualizer::Run() {
         HydraGeomData scene;
         scene.read(Get("InputFile"));
-        GLuint PointsBuffer = GenAndFillBuffer<GL_ARRAY_BUFFER>(
+        auto PointsBuffer = GenAndFillBuffer<GL_ARRAY_BUFFER>(
             scene.getVertexPositionsFloat4Array(),
             scene.getVerticesNumber() * 4
         );
-        GLuint IndicesBuffer = GenAndFillBuffer<GL_ELEMENT_ARRAY_BUFFER>(GenEdgesIndices(scene));
+        auto IndicesBuffer = GenAndFillBuffer<GL_ELEMENT_ARRAY_BUFFER>(GenEdgesIndices(scene));
         RunSize = scene.getIndicesNumber() * 2;
 
         GLuint Program = CompileShaderProgram(
@@ -29,15 +29,14 @@ namespace Hors {
 
         glUseProgram(Program); CHECK_GL_ERRORS;
 
-        GLuint VAO;
-        glGenVertexArrays(1, &VAO); CHECK_GL_ERRORS;
-        glBindVertexArray(VAO); CHECK_GL_ERRORS;
+        GLVAO VAO = MakeGLVAO();
+        glBindVertexArray(*VAO); CHECK_GL_ERRORS;
 
-        glBindBuffer(GL_ARRAY_BUFFER, PointsBuffer); CHECK_GL_ERRORS;
+        glBindBuffer(GL_ARRAY_BUFFER, *PointsBuffer); CHECK_GL_ERRORS;
         glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr); CHECK_GL_ERRORS;
         glEnableVertexAttribArray(0); CHECK_GL_ERRORS;
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesBuffer); CHECK_GL_ERRORS;
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *IndicesBuffer); CHECK_GL_ERRORS;
 
         CameraUniformLocation = glGetUniformLocation(Program, "CameraMatrix"); CHECK_GL_ERRORS;
 

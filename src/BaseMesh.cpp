@@ -31,23 +31,23 @@ namespace Hors {
             scene.getIndicesNumber()
         );
 
-        glGenVertexArrays(1, &VAO); CHECK_GL_ERRORS;
-        glBindVertexArray(VAO); CHECK_GL_ERRORS;
+        VAO = MakeGLVAO();
+        glBindVertexArray(*VAO); CHECK_GL_ERRORS;
 
-        glBindBuffer(GL_ARRAY_BUFFER, PointsBuffer); CHECK_GL_ERRORS;
+        glBindBuffer(GL_ARRAY_BUFFER, *PointsBuffer); CHECK_GL_ERRORS;
         glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr); CHECK_GL_ERRORS;
         glEnableVertexAttribArray(0); CHECK_GL_ERRORS;
 
-        glBindBuffer(GL_ARRAY_BUFFER, NormalsBuffer); CHECK_GL_ERRORS;
+        glBindBuffer(GL_ARRAY_BUFFER, *NormalsBuffer); CHECK_GL_ERRORS;
         glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, nullptr); CHECK_GL_ERRORS;
         glEnableVertexAttribArray(1); CHECK_GL_ERRORS;
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesBuffer); CHECK_GL_ERRORS;
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *IndicesBuffer); CHECK_GL_ERRORS;
         glBindVertexArray(0); CHECK_GL_ERRORS;
     }
 
     void BaseMesh::Bind() const {
-        glBindVertexArray(VAO); CHECK_GL_ERRORS;
+        glBindVertexArray(*VAO); CHECK_GL_ERRORS;
     }
 
 }

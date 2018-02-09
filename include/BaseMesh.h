@@ -7,17 +7,18 @@
 
 #include <GL/glew.h>
 
+#include <GLResourceWrappers.h>
 
 struct HydraGeomData;
 
 namespace Hors {
 
     class BaseMesh {
-        GLuint PointsBuffer = 0;
-        GLuint NormalsBuffer = 0;
-        GLuint IndicesBuffer = 0;
+        GLBuffer PointsBuffer;
+        GLBuffer NormalsBuffer;
+        GLBuffer IndicesBuffer;
         GLuint IndicesCount = 0;
-        GLuint VAO = 0;
+        GLVAO VAO;
 
     public:
         BaseMesh() = default;
