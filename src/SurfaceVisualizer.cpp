@@ -7,6 +7,7 @@
 #include "glm/gtc/type_ptr.hpp"
 
 #include "HydraExport.h"
+#include "ShaderSources.h"
 #include "SurfaceVisualizer.h"
 #include "Utils.h"
 
@@ -20,8 +21,8 @@ namespace Hors {
         auto ColorsBuffer = GenAndFillBuffer<GL_ARRAY_BUFFER>(GenRandomTrianglesColors(scene));
 
         GLuint Program = CompileShaderProgram(
-            ReadAndCompileShader("../shaders/Surface.vert", GL_VERTEX_SHADER),
-            ReadAndCompileShader("../shaders/Surface.frag", GL_FRAGMENT_SHADER)
+            CompileShader(VertexShader::Surface, GL_VERTEX_SHADER),
+            CompileShader(FragmentShader::Surface, GL_FRAGMENT_SHADER)
         );
 
         glUseProgram(Program); CHECK_GL_ERRORS;

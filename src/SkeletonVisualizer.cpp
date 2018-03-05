@@ -7,6 +7,7 @@
 #include "glm/gtc/type_ptr.hpp"
 
 #include "HydraExport.h"
+#include "ShaderSources.h"
 #include "SkeletonVisualizer.h"
 #include "Utils.h"
 
@@ -23,8 +24,8 @@ namespace Hors {
         RunSize = scene.getIndicesNumber() * 2;
 
         GLuint Program = CompileShaderProgram(
-            ReadAndCompileShader("../shaders/Skeleton.vert", GL_VERTEX_SHADER),
-            ReadAndCompileShader("../shaders/Skeleton.frag", GL_FRAGMENT_SHADER)
+            CompileShader(VertexShader::Skeleton, GL_VERTEX_SHADER),
+            CompileShader(FragmentShader::Skeleton, GL_FRAGMENT_SHADER)
         );
 
         glUseProgram(Program); CHECK_GL_ERRORS;

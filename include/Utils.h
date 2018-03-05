@@ -19,6 +19,8 @@
 namespace Hors {
     GLuint ReadAndCompileShader(const std::string & path, GLenum shaderType);
 
+    GLuint CompileShader(const std::string &src, GLenum shaderType);
+
     GLuint CompileShaderProgram(GLuint vertexShader, GLuint fragmentShader);
 
     template<GLenum Target, typename T>
@@ -50,6 +52,10 @@ namespace Hors {
 
     inline void SetUniformByLocation(const GLint location, const glm::mat4& value) {
         glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value)); CHECK_GL_ERRORS;
+    }
+
+    inline void SetUniformByLocation(const GLuint location, const glm::vec4& value) {
+        glUniform4fv(location, 1, glm::value_ptr(value)); CHECK_GL_ERRORS;
     }
 
     template<typename T>

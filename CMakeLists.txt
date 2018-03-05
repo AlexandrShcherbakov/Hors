@@ -8,16 +8,20 @@ include_directories(include)
 
 set(SOURCE_FILES
     include/BaseArgumentsClasses.h
+    include/BaseMesh.h
     include/Camera.h
+    include/GLResourceWrappers.h
     include/HorsArgumentParser.h
     include/HorsConfig.h
     include/HorsProgram.h
     include/HydraExport.h
     include/LiteMath.h
     include/SceneProperties.h
+    include/ShaderSources.h
     include/SkeletonVisualizer.h
     include/SurfaceVisualizer.h
     include/Utils.h
+    src/BaseMesh.cpp
     src/Camera.cpp
     src/HorsArgumentParser.cpp
     src/HorsConfig.cpp
@@ -26,8 +30,7 @@ set(SOURCE_FILES
     src/SceneProperties.cpp
     src/SkeletonVisualizer.cpp
     src/SurfaceVisualizer.cpp
-    src/Utils.cpp
-        src/BaseMesh.cpp include/BaseMesh.h include/GLResourceWrappers.h)
+    src/Utils.cpp)
 
 add_library(Hors STATIC ${SOURCE_FILES})
 

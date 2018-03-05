@@ -43,6 +43,10 @@ namespace Hors {
 
         glm::mat4 GetMatrix() const;
 
+        glm::vec3 GetPosition() const {
+            return Position;
+        }
+
         void StepForward(const float length=0.1f) {
             Position += Direction * length;
         }

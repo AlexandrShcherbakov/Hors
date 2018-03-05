@@ -9,6 +9,7 @@
 
 #include "HorsProgram.h"
 #include "BaseMesh.h"
+#include "ShaderSources.h"
 #include "Utils.h"
 
 class SSAO : public Hors::Program {
@@ -92,8 +93,8 @@ class SSAO : public Hors::Program {
 
     void GenDepthRenderProgram() {
         GBufferRenderProgram = Hors::CompileShaderProgram(
-            Hors::ReadAndCompileShader("shaders/SimpleGBuffer.vert", GL_VERTEX_SHADER),
-            Hors::ReadAndCompileShader("shaders/SimpleGBuffer.frag", GL_FRAGMENT_SHADER)
+            Hors::CompileShader(Hors::VertexShader::SimpleGBuffer, GL_VERTEX_SHADER),
+            Hors::CompileShader(Hors::FragmentShader::SimpleGBuffer, GL_FRAGMENT_SHADER)
         );
 
         glUseProgram(GBufferRenderProgram); CHECK_GL_ERRORS;
@@ -101,8 +102,8 @@ class SSAO : public Hors::Program {
 
     void GenMainRenderProgram() {
         MainRenderProgram = Hors::CompileShaderProgram(
-            Hors::ReadAndCompileShader("shaders/SimpleGBuffer.vert", GL_VERTEX_SHADER),
-            Hors::ReadAndCompileShader("shaders/SSAO.frag", GL_FRAGMENT_SHADER)
+            Hors::CompileShader(Hors::VertexShader::SimpleGBuffer, GL_VERTEX_SHADER),
+            Hors::CompileShader(Hors::FragmentShader::SSAO, GL_FRAGMENT_SHADER)
         );
 
         glUseProgram(MainRenderProgram); CHECK_GL_ERRORS;
