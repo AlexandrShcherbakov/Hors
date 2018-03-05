@@ -24,7 +24,7 @@ void main() {
         vec4( 0.5,  0.5,  0.5, 0)
     );
 
-    const float radius = 20;
+    const float radius = 10;
     vec2 screenSize = vec2(ScreenWidth, ScreenHeight);
     float visibleSamples = 0;
     ivec2 randomPlaneindex = ivec2(gl_FragCoord.xy) % RANDOM_PLANES_TEXTURE_SIDE;
@@ -36,7 +36,7 @@ void main() {
         vec3 reflectedSample = reflect(samples[i].xyz, randomPlane);
         vec2 sampleTextureCoord = (gl_FragCoord.xy + reflectedSample.xy * radius) / screenSize;
         vec4 samplePos = texture(PosTexture, sampleTextureCoord);
-        visibleSamples += int(dot(normal, normalize(samplePos - pos)) < 1e-5);
+        visibleSamples += int(dot(normal, normalize(samplePos - pos)) < 1e-3);
     }
     outColor = vec4(visibleSamples / SAMPLES_COUNT);
 }
