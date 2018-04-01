@@ -16,8 +16,7 @@ namespace Hors {
 
     glm::mat4 Camera::GetMatrix() const {
         return glm::perspective(glm::radians(FovY), ScreenRatio, ZNear, ZFar)
-            * glm::lookAt(Position, Position + Direction, Up)
-            * GenShiftMatrix(Position);
+            * glm::lookAt(Position, Position + Direction, Up);
     }
 
     void Camera::RotateLeft(const float angle) {

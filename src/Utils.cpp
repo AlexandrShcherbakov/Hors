@@ -172,4 +172,15 @@ namespace Hors {
         }
         return result;
     }
+
+    glm::mat4 ReadMat4(const std::string& s) {
+        glm::mat4 result;
+        std::stringstream ss(s);
+        for (int i = 0; i < 4; ++i) {
+            for (int j = 0; j < 4; ++j) {
+                ss >> result[i][j];
+            }
+        }
+        return result;
+    }
 }

@@ -9,6 +9,8 @@
 #include <vector>
 
 #include <glm/vec4.hpp>
+#include "glm/geometric.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 #include <pugixml-1.8/src/pugixml.hpp>
 
 #include "Camera.h"
@@ -42,17 +44,33 @@ namespace Hors {
         float GetMultiplier() const { return Multiplier; }
         float GetOuterAngle() const { return OuterAngle; }
         float GetInnerAngle() const { return InnerAngle; }
+
+        glm::mat4 GenShiftMatrix(const glm::vec3& shift) const {
+            glm::mat4 shiftMatrix(1);
+            shiftMatrix[3] = glm::vec4(-shift, 1);
+            return shiftMatrix;
+        }
+
+        glm::mat4 GetMatrix() const {
+            return glm::perspective(glm::radians(OuterAngle + 10), 1.f, 0.001f, 100.f)
+                   * glm::lookAt(Position, Position + Direction, glm::vec3(1, 0, 0));
+        }
     };
 
     class SceneProperties {
         pugi::xml_document doc;
+        std::vector<glm::vec4> GetMaterialComponent(const std::string& name) const;
+
     public:
         explicit SceneProperties(const std::string&);
 
         std::vector<glm::vec4> GetDiffuseColors() const;
+        std::vector<glm::vec4> GetEmissionColors() const;
         std::vector<Camera> GetCameras(float screenRatio = 800.0f / 600) const;
         std::vector<SpotLight> GetLights() const;
         std::vector<glm::vec4> GetSpecularColors() const;
+        std::vector<std::string> GetChunksPaths() const;
+        std::vector<glm::mat4> GetMeshMatrices() const;
     };
 }
 

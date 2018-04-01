@@ -92,7 +92,7 @@ namespace Hors {
         AddArgument("GLVersion", GLVersion(), "Version of OpenGL context");
         AddArgument("Title", "Hors", "Window title");
         AddArgument("WindowSize", WindowSize(), "Window size");
-        AddArgument("InputFile", "", "Path to input file");
+        AddArgument("InputDir", "", "Path to input file");
     }
 
     void Program::AddKeyboardEvents() {
