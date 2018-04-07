@@ -33,8 +33,8 @@ namespace Hors {
             const float zFar
         ) :
         Position(position),
-        Direction(direction),
-        Up(up),
+        Direction(glm::normalize(direction)),
+        Up(glm::normalize(up)),
         FovY(fovY),
         ScreenRatio(screenRatio),
         ZNear(zNear),
