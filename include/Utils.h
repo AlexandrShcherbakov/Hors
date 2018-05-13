@@ -70,6 +70,8 @@ namespace Hors {
 
     glm::vec3 ReadVec3(const std::string& s);
     glm::mat4 ReadMat4(const std::string& s);
+
+    glm::vec4 GenRandomColor();
 }
 
 #endif //HORS_UTILS_H

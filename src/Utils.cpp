@@ -142,12 +142,17 @@ namespace Hors {
         return indices;
     }
 
+    glm::vec4 GenRandomColor() {
+        static std::default_random_engine engine;
+        static std::uniform_real_distribution<float> dist(0.0f, 1.0f);
+        return glm::vec4(dist(engine), dist(engine), dist(engine), 1);
+    }
+
     std::vector<glm::vec4> GenRandomTrianglesColors(const HydraGeomData& data) {
         std::vector<glm::vec4> colors(data.getIndicesNumber());
-        std::default_random_engine engine;
-        std::uniform_real_distribution<float> dist(0.0f, 1.0f);
+
         for (unsigned i = 0; i < colors.size(); i += 3) {
-            colors[i] = colors[i + 1] = colors[i + 2] = glm::vec4(dist(engine), dist(engine), dist(engine), 1);
+            colors[i] = colors[i + 1] = colors[i + 2] = GenRandomColor();
         }
         return colors;
     }
