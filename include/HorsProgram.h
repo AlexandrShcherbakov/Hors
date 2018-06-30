@@ -19,10 +19,10 @@ namespace Hors {
 
     class Program {
     private:
-        std::map<char, std::function<void(void)> > KeyboardEvents;
-        std::map<int, std::function<void(void)> > SpecialButtonsEvents;
-        std::vector<std::function<void(void)> > InitialFunctions;
-        Config config;
+        std::map<char, std::function<void(void)> > KeyboardEvents = {};
+        std::map<int, std::function<void(void)> > SpecialButtonsEvents = {};
+        std::vector<std::function<void(void)> > InitialFunctions = {};
+        Config config = Config();
 
         void InitGlut(int argc, char **argv);
         void AddInitializeArguments();
@@ -42,8 +42,8 @@ namespace Hors {
         virtual void Run() = 0;
 
     protected:
-        GLint CameraUniformLocation;
-        Camera MainCamera;
+        GLint CameraUniformLocation = -1;
+        Camera MainCamera = Camera();
 
         void RunFullProcess(int argc, char **argv);
         template<typename ProgramClass>

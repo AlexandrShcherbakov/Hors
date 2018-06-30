@@ -14,9 +14,9 @@ namespace Hors {
 
     class Config {
     private:
-        HorsArgumentParser Parser;
-        std::map<std::string, std::string> AllArgs;
-        std::string configFile;
+        HorsArgumentParser Parser = HorsArgumentParser();
+        std::map<std::string, std::string> AllArgs = std::map<std::string, std::string>();
+        std::string configFile = "";
 
         void LoadFromFile(const std::string& path);
     public:

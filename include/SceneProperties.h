@@ -58,7 +58,7 @@ namespace Hors {
     };
 
     class SceneProperties {
-        pugi::xml_document doc;
+        pugi::xml_document doc = {};
         std::vector<glm::vec4> GetMaterialComponent(const std::string& name) const;
 
     public:

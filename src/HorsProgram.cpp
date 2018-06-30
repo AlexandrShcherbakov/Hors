@@ -17,9 +17,9 @@ namespace Hors {
         const std::function<void(const unsigned char)> DefaultKeyboardFunction = [](const unsigned char){};
         const std::function<void(const int)> DefaultSpecialButtonsFunction = [](const int){};
         const std::function<void(void)> DefaultRenderFunction = []{};
-        std::function<void(const unsigned char)> KeyboardFunction;
-        std::function<void(const int)> SpecialButtonsFunction;
-        std::function<void(void)> RenderFunction;
+        std::function<void(const unsigned char)> KeyboardFunction = [](const unsigned char){};
+        std::function<void(const int)> SpecialButtonsFunction = [](const int) {};
+        std::function<void(void)> RenderFunction = []{};
 
     public:
         static GlobalFunctionContainer& Get() {

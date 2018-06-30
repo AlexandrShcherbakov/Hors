@@ -15,8 +15,8 @@ namespace Hors {
 
     class HorsArgumentParser {
     private:
-        po::options_description Description;
-        po::variables_map ParsedOptions;
+        po::options_description Description = po::options_description();
+        po::variables_map ParsedOptions = po::variables_map();
     public:
         void AddArgument(
                 const std::string& optName,
