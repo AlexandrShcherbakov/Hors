@@ -108,4 +108,37 @@ namespace Hors {
         }
         return result;
     }
+
+    std::vector<SceneProperties::TextureRecordInfo> SceneProperties::GetTextures() const {
+        std::vector<SceneProperties::TextureRecordInfo> records;
+        for (const auto& record : doc.child("textures_lib").children("texture")) {
+            TextureRecordInfo rec = {
+                record.attribute("id").as_uint(),
+                std::string(record.attribute("loc").as_string()),
+                record.attribute("offset").as_uint(),
+                record.attribute("bytesize").as_uint(),
+                record.attribute("width").as_uint(),
+                record.attribute("height").as_uint()
+            };
+            records.emplace_back(rec);
+        }
+        return records;
+    }
+
+    std::vector<int> SceneProperties::GetDiffuseTextures() const {
+        std::vector<int> ids;
+        for(auto & material: doc.child("materials_lib").children("material")) {
+            uint materialId = material.attribute("id").as_uint();
+            if (materialId >= ids.size()) {
+                ids.resize(static_cast<unsigned>(materialId + 1));
+            }
+            auto componentChild = material.child("diffuse").child("color").child("texture");
+            if (componentChild) {
+                ids[materialId] = componentChild.attribute("id").as_int();
+            } else {
+                ids[materialId] = -1;
+            }
+        }
+        return ids;
+    }
 }

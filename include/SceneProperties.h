@@ -64,6 +64,15 @@ namespace Hors {
     public:
         explicit SceneProperties(const std::string&);
 
+        struct TextureRecordInfo {
+            uint id;
+            std::string location;
+            uint offset;
+            uint bytesize;
+            uint width;
+            uint height;
+        };
+
         std::vector<glm::vec4> GetDiffuseColors() const;
         std::vector<glm::vec4> GetEmissionColors() const;
         std::vector<Camera> GetCameras(float screenRatio = 800.0f / 600) const;
@@ -71,6 +80,8 @@ namespace Hors {
         std::vector<glm::vec4> GetSpecularColors() const;
         std::vector<std::string> GetChunksPaths() const;
         std::vector<glm::mat4> GetMeshMatrices() const;
+        std::vector<TextureRecordInfo> GetTextures() const;
+        std::vector<int> GetDiffuseTextures() const;
     };
 }
 
