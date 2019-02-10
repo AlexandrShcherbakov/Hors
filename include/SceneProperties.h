@@ -79,7 +79,7 @@ namespace Hors {
         std::vector<SpotLight> GetLights() const;
         std::vector<glm::vec4> GetSpecularColors() const;
         std::vector<std::string> GetChunksPaths() const;
-        std::vector<glm::mat4> GetMeshMatrices() const;
+        std::vector<std::pair<glm::mat4, uint>> GetMeshMatrices() const;
         std::vector<TextureRecordInfo> GetTextures() const;
         std::vector<int> GetDiffuseTextures() const;
     };

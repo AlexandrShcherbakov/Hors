@@ -93,18 +93,20 @@ namespace Hors {
         return paths;
     }
 
-    std::vector<glm::mat4> SceneProperties::GetMeshMatrices() const {
-        std::vector<glm::mat4> result;
+    std::vector<std::pair<glm::mat4, uint>> SceneProperties::GetMeshMatrices() const {
+        std::vector<std::pair<glm::mat4, uint>> result;
         for (auto & instance: doc.child("scenes").child("scene").children("instance")) {
             auto meshIdStr = instance.attribute("mesh_id");
+            const auto idStr = instance.attribute("id");
             if (meshIdStr == nullptr) {
                 continue;
             }
-            uint meshId = meshIdStr.as_uint();
-            if (meshId >= result.size()) {
-                result.resize(meshId + 1);
+            const uint id = idStr.as_uint();
+            if (id >= result.size()) {
+                result.resize(id + 1);
             }
-            result[meshId] = ReadMat4(instance.attribute("matrix").as_string());
+            const uint meshId = meshIdStr.as_uint();
+            result[id] = std::make_pair(ReadMat4(instance.attribute("matrix").as_string()), meshId);
         }
         return result;
     }
